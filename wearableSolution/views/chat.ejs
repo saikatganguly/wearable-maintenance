@@ -1,0 +1,21 @@
+<link rel='stylesheet' href='/stylesheets/chat.css' type='text/css'/>
+<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+<script type="text/javascript" src="/javascripts/jquery-2.1.1.js"></script>
+<script type="text/javascript">
+var name = '<%= session.passport.user %>';
+</script>
+<script type="text/javascript" src="/javascripts/chat.js"></script>
+ 
+<html>
+	<head>
+		<title>
+			Chat Window
+		</title>
+	</head>
+	<body>
+		<h3>Chat Window</h3>
+		<div>
+		<ul id="messages"></ul>
+		</div>
+	</body>
+</html>

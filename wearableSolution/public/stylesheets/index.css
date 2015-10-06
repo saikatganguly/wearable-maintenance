@@ -1,0 +1,179 @@
+/****************************************** Customize Navbar CSS **************************************/
+body{
+	/* font-family: myriad pro; */
+}
+
+#nav {
+  	width: 100%;
+  	position:static;
+  	top:-50px;
+}
+#nav.affix {
+	position: fixed;
+	top: 0;
+	z-index: 1021;
+	-webkit-transition: all .6s ease-in-out;
+	-moz-transition: all .6s ease-in-out;
+  	-o-transition: all .6s ease-in-out;
+	transition: all .6s ease-in-out;
+}
+.table-striped>thead>tr>th {
+   color:white;
+    line-height:1;
+	font-size:14px;
+ }
+ .table-striped > tbody > tr:nth-child(2n+1) {
+    background-color: #f8f8ff;
+	font-size:14px;
+}
+.table-striped > tbody > tr:nth-child(2n+2) {
+    background-color: #FFFFFA;
+	font-size:14px;
+}
+.btn-second {
+    
+   /*  border-color: #204d74; */
+   border-radius:0px;
+    color: #fff;
+	width:150px;
+	height:31px;
+}
+.navbar-brand {
+    color: #fff !important;
+    font-size: 16px;
+    height: 40px;
+    padding:10px;
+    font-weight: bold;
+	margin-bottom: 42px;
+}
+.navbar-nav > li > a{
+	padding-bottom: 10px;
+    padding-top: 10px;
+	font-size:16px;
+	color:#4A71A1;
+}
+.navbar-default .navbar-brand:hover,
+.navbar-default .navbar-brand:focus {
+  color: #ffffff;
+  background-color: none;
+}
+.navbar-default .navbar-text {
+  color: #dddddd;
+}
+.navbar-default .navbar-nav > li > a {
+  color: #ffffff;
+}
+
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > li > a:focus {
+  /* color: #ffffff;
+  background-color: #305c79; */
+}
+.navbar-default .navbar-nav > .active > a,
+.navbar-default .navbar-nav > .active > a:hover,
+.navbar-default .navbar-nav > .active > a:focus {
+  color: #ffffff;
+  background-color: #305c79;
+}
+.navbar-default .navbar-toggle {
+  border-color: #305c79;
+}
+.navbar-default .navbar-toggle:hover,
+.navbar-default .navbar-toggle:focus {
+  background-color: #305c79;
+}
+.navbar-default .navbar-toggle .icon-bar {
+  background-color: #ffffff;
+}
+.navbar-default .navbar-collapse,
+.navbar-default .navbar-form {
+  border-color: #305c79;
+}
+.navbar-default .navbar-nav > .open > a,
+.navbar-default .navbar-nav > .open > a:hover,
+.navbar-default .navbar-nav > .open > a:focus {
+  background-color: #305c79;
+  color: #ffffff;
+}
+.navbar {
+	
+	margin-bottom:0;
+	min-height: 0;
+	border-radius: 0;
+	border-bottom: 5px solid #0A91C8;
+}
+.navbar-default {
+   background-color: #1d4966;
+   border-color: none;
+   border-radius:0;
+}
+#menu ul li a{
+	padding-bottom: 40px;
+    padding-top: 40px;
+}
+.navbar-toggle .icon-bar {
+    background-color: #000;
+}
+.navbar-fixed-top > .container .navbar-brand, .navbar > .container-fluid .navbar-brand {
+    margin-left: 24px;
+}
+a{
+	outline:none !important;
+	color: black !important;
+}
+.dropdown-menu {
+min-width: 130px!important;
+background-color: #53b2d8;
+color:white !important;}
+.navbar-right .dropdown-menu {
+    left: auto;
+    right: -15;
+}
+hr{
+margin-top:2px!important;
+margin-bottom:0!important;
+}
+.login-menu{
+	text-align: right;
+	padding: 10px;
+}
+
+@media (max-width: 750px) {
+	
+	#menu ul li a{
+		padding-bottom: 8px;
+		padding-top: 8px;
+	}
+}
+@media (max-width: 650px) {
+	
+	.right-column{
+		text-align:center;
+		margin-right:0;
+	}
+}
+@media (max-width:400px){
+	
+	
+	.login-link{
+		padding-right: 5%;
+	}
+	
+	.login-menu a{
+		font-size: 11px;
+	}
+	
+ 	#example{
+ 		font-size:12px;
+ 	 }
+}
+.radio-inline,
+.checkbox-inline{color: white;}
+
+
+.thumbnail-box{
+	/* margin: 0 auto; */
+	width: 70%;
+}
+
+.tooltip-link + .tooltip > .tooltip-inner {padding:10px;}

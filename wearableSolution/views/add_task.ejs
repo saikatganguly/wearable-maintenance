@@ -1,0 +1,35 @@
+<html>
+	<head>
+	<title>Add Task</title>
+	<link  rel="stylesheet" href="/stylesheets/addtask.css" type="text/css" media="all" />
+	<script type="text/javascript" src="/javascripts/jquery-2.1.1.js"></script>
+	<script type="text/javascript" src="/javascripts/addtask.js"></script>
+
+	</head>
+	<body>
+		<h3> Add Task:</h3>
+		<form action="/task/addtask" onsubmit="return validate()" method="post" enctype="multipart/form-data">
+		
+			<div style="margin-top:1%">
+				<label>Task Name:</label>
+				<input type="text" placeholder="Full Name" id="taskname" name="taskname" tabindex="1" onfocus="removeMessage('errTaskName');" autocomplete="off">
+				<label style="color:red;" id="errTaskName"></label>
+			</div>
+		
+			<div style="margin-top:1%">
+				<label> Description:</label>
+				<input type="text" placeholder="User Name" id="description" name="description" tabindex="2" onfocus="removeMessage('errDescription');" autocomplete="off">
+				<label style="color:red;" id="errDescription"></label>
+			</div>
+			
+			<button onclick="addImage()" style="margin-left: 0px;"
+												class="btn btn-primary" type="button"
+												onfocus="removeMessage('msgMachineImage');" tabindex="20">Upload
+												Image</button>
+				<div id="addimage" style="border: 0px solid red;"></div>	
+			<div style="margin-top:1%;clear:both">
+				<input type="submit" name="submit" value="Add"   tabindex="6" />
+			</div>
+		</form>
+	</body>
+</html>

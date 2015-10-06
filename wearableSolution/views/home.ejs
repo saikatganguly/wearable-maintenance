@@ -1,0 +1,36 @@
+<script type="text/javascript" src="/javascripts/jquery-2.1.1.js"></script>
+<div style="font-size:20px;color:green">
+	This is <%= session.passport.user %>!!
+</div>
+
+<a href="/task/addtask">Add Task</a>
+<br>
+<a href="/chatwindow">Chat Window</a>
+
+ <% if(taskname.length>0){ %>
+	<div style="font-size:15px;color:blue" id="taskname_div">
+		Task "<%= taskname %>" is added.</div>
+		<script type="text/javascript">
+		setTimeout(function(){ $('#taskname_div').fadeOut(); }, 3000);
+		</script>
+ <% }%>
+<br>
+<a href="/logout">Logout</a>
+
+<% if(tasklist.length>0){%>
+<table>
+<tr>
+<th>Task Name</th>
+<th>Description</th>
+</tr>
+<% for(var i=0;i < tasklist.length; i++) {%>
+<tr>
+<td><%= tasklist[i].taskname %></td>
+<td><%= tasklist[i].description %></td>
+</tr>
+
+
+<% } %>
+
+	</table>
+ <% }%>

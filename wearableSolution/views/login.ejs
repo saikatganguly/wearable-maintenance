@@ -1,0 +1,33 @@
+<html>
+	<head>
+	<title>User Login</title>
+	<script type="text/javascript" src="/javascripts/jquery-2.1.1.js"></script>
+	<script type="text/javascript" src="/javascripts/userregistration.js"></script>
+
+	</head>
+	<body>
+		<h3> User Login:</h3>
+		<form action="/login" onsubmit="return validate()" method="post">
+		
+		
+    		<div ><%= message %></div>
+  		
+		
+		<div style="margin-top:1%">
+				<label>User Name:</label>
+				<input type="text" placeholder="User Name" id="username" name="username" value="" />
+				<label style="color:red;" id="errUserName"></label>
+			</div>
+			
+			<div style="margin-top:1%">
+				<label>Password:</label>
+				<input type="text" placeholder="Password" id="password" name="password" tabindex="1" onfocus="removeMessage('errUserName');" autocomplete="off">
+				<label style="color:red;" id="errUserName"></label>
+			</div>
+			
+			<div style="margin-top:1%">
+				<input type="submit" name="submit" value="Activate"   tabindex="6" />
+			</div>
+		</form>
+	</body>
+</html>

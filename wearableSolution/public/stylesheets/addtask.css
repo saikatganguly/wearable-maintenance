@@ -21,7 +21,7 @@
     width: auto;
 }
 .upload {
-    background: url("./images/noimage.jpg") no-repeat scroll center center rgba(0, 0, 0, 0);
+    background: url("/images/noimage.jpg") no-repeat scroll center center rgba(0, 0, 0, 0);
     height: 26px;
     overflow: hidden;
     background-size: 100% 100%;

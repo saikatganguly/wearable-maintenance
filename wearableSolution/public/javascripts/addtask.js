@@ -4,6 +4,7 @@
 function validate(){
     var taskname = $("#taskname").val();
 	var description = $("#description").val();
+	var story = $("#story").val();
 	
      
     if (taskname == "") {
@@ -18,7 +19,19 @@ function validate(){
 		$("#errDescription").focus();
 		return false;
 	}
+    if (story == "") {
+		$("#errStory").text("Story is required");
+		$("#errStory").focus();
+		return false;
+	}
     
+    var task={
+    		'taskname':	taskname,
+    		'description':description,
+    		'story':story
+    }
+    
+    //addTask(task);
     return true;
  }
  
@@ -33,17 +46,27 @@ function validate(){
 	).appendTo(addimage); 
 		$('#fileToUpload').click();
 	}
+ 
+ 
  function readURL(event) {
 	    var input = event.target;
 	    
 	    var reader = new FileReader();
 	    reader.onload = function(){
-	    	$('<div class="form-group" id="uploadupper" style="float:left;width:75px;">'+
-	    		'<div id="upload" class="upload" style="overflow:hidden; margin-left: 7px;position:relative;z-index:1;"><div class="close" style="color:blue;background-color:black;height:22px;width:20%;float:right;cursor: pointer; " onclick="removeImage();"><h4 style="color:white;font-weight:bolder;margin-top:2px">X</h4></div>'+ 
-	    		'</div>').appendTo(addimage); 
 	    	$('#upload').css('background-image','url('+reader.result+')');
-      	 
-	    dataURL = reader.result;
+   	 
+	    	dataURL = reader.result;
+	    };
+	    reader.readAsDataURL(input.files[0]);
+	}
+ function readURL2(event) {
+	    var input = event.target;
+	    
+	    var reader = new FileReader();
+	    reader.onload = function(){
+	    	$('#upload2').css('background-image','url('+reader.result+')');
+	 
+	    	dataURL = reader.result;
 	    };
 	    reader.readAsDataURL(input.files[0]);
 	}
@@ -59,4 +82,41 @@ function validate(){
 	    });
 	    
 	    
+}
+ 
+ /*function addTask(task){
+	 
+	 alert("add task"+JSON.stringify(task));
+	 $.ajax({
+         type: 'POST',
+         data: task,
+         url: '/task/addtask',
+         dataType: 'JSON'
+     }).done(function( response ) {
+
+         // Check for successful (blank) response
+         if (response._id != '') {
+           
+        	 alert(response._id);
+         }
+         else {
+
+             // If something goes wrong, alert the error message that our service returned
+             alert('Error: ' + response.msg);
+
+         }
+     });
+	 
+ }*/
+ function saveStep(){
+	 
+ }
+function saveStep2(){
+	if($('#step').val()==="1"){
+		alert("save step 1");
+	}
+	 
+ }
+function validateStep(){
+	return true
 }

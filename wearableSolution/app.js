@@ -14,12 +14,16 @@ var db=mongoose.connect('mongodb://localhost:27017/wearable');
 mongoose.connection.on('open' , function(){
 	console.log("Connected to local db");
 });
-
+var http = require('http');
+var TMP_UPLOAD_DIR = process.env.TMP_UPLOAD_DIR || path.join(__dirname, './temp');
+console.log(TMP_UPLOAD_DIR);
+var multipart = require('connect-multiparty');
+var multipartMiddleware = multipart({uploadDir: TMP_UPLOAD_DIR});
 /*var routes = require('./routes/index');
 var users = require('./routes/users');*/
 
 var app = express();
-
+app.set("multipartMiddleware",multipartMiddleware);
 //session setup
 app.use(session({secret: 'XXXWearableXXX' , resave: true, saveUninitialized: true}));
 

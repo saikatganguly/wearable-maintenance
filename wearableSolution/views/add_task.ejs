@@ -4,32 +4,65 @@
 	<link  rel="stylesheet" href="/stylesheets/addtask.css" type="text/css" media="all" />
 	<script type="text/javascript" src="/javascripts/jquery-2.1.1.js"></script>
 	<script type="text/javascript" src="/javascripts/addtask.js"></script>
-
+	
 	</head>
 	<body>
 		<h3> Add Task:</h3>
-		<form action="/task/addtask" onsubmit="return validate()" method="post" enctype="multipart/form-data">
 		
+		<form class="js-form" action="" onsubmit="return validate()" method="post" enctype="multipart/form-data">
 			<div style="margin-top:1%">
 				<label>Task Name:</label>
-				<input type="text" placeholder="Full Name" id="taskname" name="taskname" tabindex="1" onfocus="removeMessage('errTaskName');" autocomplete="off">
+				<input type="text" placeholder="Task Name" id="taskname" name="taskname" tabindex="1" onfocus="removeMessage('errTaskName');" autocomplete="off">
 				<label style="color:red;" id="errTaskName"></label>
 			</div>
 		
 			<div style="margin-top:1%">
 				<label> Description:</label>
-				<input type="text" placeholder="User Name" id="description" name="description" tabindex="2" onfocus="removeMessage('errDescription');" autocomplete="off">
+				<input type="text" placeholder="Description" id="description" name="description" tabindex="2" onfocus="removeMessage('errDescription');" autocomplete="off">
 				<label style="color:red;" id="errDescription"></label>
 			</div>
-			
-			<button onclick="addImage()" style="margin-left: 0px;"
-												class="btn btn-primary" type="button"
-												onfocus="removeMessage('msgMachineImage');" tabindex="20">Upload
-												Image</button>
-				<div id="addimage" style="border: 0px solid red;"></div>	
+			<div style="margin-top:1%">
+				<label> Story:</label>
+				<input type="text" placeholder="Story" id="story" name="story" tabindex="2" onfocus="removeMessage('errStory');" autocomplete="off">
+				<label style="color:red;" id="errStory"></label>
+			</div>
+			<div style="margin-top:1%">
+				<h3> STEP 1</he>
+			</div>
+			<div style="margin-top:1%">
+			<div class="upload-image">
+				<div id="uploadDiv" class="toolbarItemBox" title="Upload Image" style="overflow: hidden; position: relative;">
+					<div class="upload" id="upload" class="toolbarItemIcon" ></div>
+					<input class="fileToUpload" id="taskImage" type="file" accept="image/jpg,image/jpeg,image/png,image/gif,image/bmp,image/tiff" style="" name="taskImage" onchange="readURL(event);">
+					</div>
+				</div>
+			</div>
+			<div style="margin-top:1%">
+				<label> Description:</label>
+				<input type="text" placeholder="Step 1 Description" id="descriptionStep" name="descriptionStep" tabindex="2" autocomplete="off">
+				<label style="color:red;" id="errDescription"></label>
+			</div>
+			<div style="margin-top:1%">
+				<h3> STEP 2</he>
+			</div>
+			<div style="margin-top:1%">
+			<div class="upload-image">
+				<div id="uploadDiv" class="toolbarItemBox" title="Upload Image" style="overflow: hidden; position: relative;">
+					<div class="upload" id="upload2" class="toolbarItemIcon" ></div>
+					<input class="fileToUpload" id="taskImage2" type="file" accept="image/jpg,image/jpeg,image/png,image/gif,image/bmp,image/tiff" style="" name="taskImage2" onchange="readURL2(event);">
+					</div>
+				</div>
+			</div>
+			<div style="margin-top:1%">
+				<label> Description:</label>
+				<input type="text" placeholder=" Step 2 Description" id="descriptionStep2" name="descriptionStep2" tabindex="2" autocomplete="off">
+				<label style="color:red;" id="errDescription"></label>
+			</div>
+				
 			<div style="margin-top:1%;clear:both">
-				<input type="submit" name="submit" value="Add"   tabindex="6" />
+				<input type="submit" class="js-submit-ajax" name="submit" value="Next"  tabindex="6" />
 			</div>
 		</form>
+		<script type="text/javascript" src="/javascripts/addstep.js"></script>
 	</body>
 </html>

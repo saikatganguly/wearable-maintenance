@@ -1,55 +1,65 @@
 var express=require('express');
 var taskService=require('../../common/service/taskService');
-var multiparty = require('multiparty');
+//var multiparty = require('multiparty');
+var _ = require('lodash');
+var fs=require('fs');
 
+//var multipartMiddleware = multipart({uploadDir: TMP_UPLOAD_DIR});
 //var form = require('connect-form');
 exports.getTaskPage=function(req , res){
 	res.render("add_task");
 };
 
 exports.addTask= function(req , res){
-	var filePath="";
-	console.log("reached task controller");
 	
-	var form = new multiparty.Form();
-
-	  /*form.on('error', function (err) {
-	    console.log('Error parsing form: ' + err.stack);
-	  });
-
-	  form.on('part', function (part) {
-	    if (!part.filename)
-	        return;
-	    size = part.byteCount;
-	    console.log('size : '+ size);
-	    file_name = part.filename;
-	  });*/
-
-	  form.on('file', function (name, file) {
-		  filePath = file.path;
-	    console.log('filePath : '+ filePath);
-	   
-	  });
-
-	  
-
-	  form.parse(req, function(err, fields, files) {
-		  taskService.createTask(fields.taskname,fields.description,filePath,function(data , err){
+	console.log("reached task controller body"+JSON.stringify(req.body));
+	console.log("reached task controller file"+JSON.stringify(req.files));
+	
+	taskService.createTask(req,function(data , err){
+		res.send({msg:"success"});
+		/*if(data.length>0){
+			var task=JSON.parse(data);
+			console.log(task);
+			
+					 
+					res.render("add_steps", {session: req.session,"taskId":task._id,"taskname":task.taskname,"stepNumber":"1",});
+		}	*/
+		
+	});
+	
+		
+	
+	
+};
+exports.addTaskStep= function(req , res){
+		
+	taskService.createTaskStep(req.body.taskId,req.body.description,req.files.taskImage.path,req.body.stepNumber,function(data , err){
+		 console.log("after callback ");
+		  var task=JSON.parse(data);
+			if(data.length>0){
 				
-				if(data.length>0){
-					var taskName=data;
+				if(req.body.stepNumber == 1){
+					
+					res.send({msg:"success"});
+					}
+				else{
 					taskService.getTaskList(function(data,err){
 						if(data.length>0){
-							res.render("home", {session: req.session,"taskname":taskName,tasklist:data});
+							
+							res.redirect('/home')
+							
 						}
 					});
 					
 				}
+			
 				
-			});
+				
+			}
 			
 		});
-		
+	
+	
 	
 	
 };

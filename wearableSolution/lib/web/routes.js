@@ -6,7 +6,11 @@ var express = require("express");
 var passport = require('passport');
 var appUtil = require('./appUtil');
 
+var path = require('path');
+
+
 module.exports = function(app) {
+	
 	var userController = require("./controllers/userController");
 	var taskController = require("./controllers/taskController")
 	
@@ -40,7 +44,7 @@ module.exports = function(app) {
 	});
 	
 	app.get("/task/addtask",appUtil.isAuthenticated, taskController.getTaskPage);
-	app.post("/task/addtask", taskController.addTask);
-	
+	app.post("/task/addtask",app.get('multipartMiddleware'), taskController.addTask);
+	app.post("/task/addtaskstep",app.get('multipartMiddleware') ,taskController.addTaskStep);
 	app.get("/chatwindow",appUtil.isAuthenticated, userController.getChatWindow);
 }

@@ -16,6 +16,8 @@ exports.addTask= function(req , res){
 	console.log("reached task controller file"+JSON.stringify(req.files));
 	
 	taskService.createTask(req,function(data , err){
+		fs.unlink(req.files.taskImage.path);
+		fs.unlink(req.files.taskImage2.path);
 		res.send({msg:"success"});
 		/*if(data.length>0){
 			var task=JSON.parse(data);

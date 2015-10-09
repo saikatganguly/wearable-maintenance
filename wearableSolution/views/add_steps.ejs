@@ -1,0 +1,36 @@
+<html>
+	<head>
+	<title>Add Task</title>
+	<link  rel="stylesheet" href="/stylesheets/addtask.css" type="text/css" media="all" />
+	
+	
+		
+	</head>
+	<body>
+		<h3> Add steps:</h3>
+		<h3><%=taskname%></h3>
+		
+		<a onclick="saveStep()">Step 1</a>
+		<br>
+		<a onclick="saveStep2()">Step 2</a>
+						<form class="js-form" action="javascript:;" id="addStepForm"  method="post" enctype="multipart/form-data">
+						<input type="hidden" name="taskId" value='<%=taskId %>'>
+						<input type="hidden" id="stepNumber" name="stepNumber" value='<%=stepNumber %>'>
+						<div class="upload-image">
+						<div id="uploadDiv" class="toolbarItemBox" title="Upload Image" style="overflow: hidden; position: relative;">
+							<div class="upload" id="upload" class="toolbarItemIcon" ></div>
+							<input class="fileToUpload" id="taskImage" type="file" accept="image/jpg,image/jpeg,image/png,image/gif,image/bmp,image/tiff" style="" name="taskImage" onchange="readURL(event);">
+						</div></div>
+						<div style="margin-top:1%">
+				<label> Description:</label>
+				<input type="text" placeholder="Description" id="description" name="description" tabindex="2" autocomplete="off">
+				<label style="color:red;" id="errDescription"></label>
+			</div>
+					<div style="margin-top:1%;clear:both">
+				<input type="submit" class="js-submit-ajax" name="submit" value="Next"  tabindex="6" />
+			</div>	
+				</form>
+				<script type="text/javascript" src="/javascripts/jquery-2.1.1.js"></script>
+	<script type="text/javascript" src="/javascripts/addstep.js"></script>
+	</body>
+</html>

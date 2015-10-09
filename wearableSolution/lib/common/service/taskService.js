@@ -42,11 +42,7 @@ exports.createTask=function(req,callback){
 };
 exports.createTaskStep=function(taskId,description,filePath,stepNumber,callback){
 	
-	console.log("taskId  "+taskId);
-	console.log("req.body.description "+description);
-	console.log("req.files.taskimage.path  "+filePath);
-    console.log("req.body.stepNumber  "+stepNumber);
-	 Task.findOne({_id:taskId}, function(err, result){
+		 Task.findOne({_id:taskId}, function(err, result){
 		    if ( err ) {console.log('err '+err);}
 
 		    if(!result){

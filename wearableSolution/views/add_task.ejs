@@ -1,68 +1,169 @@
 <html>
 	<head>
 	<title>Add Task</title>
-	<link  rel="stylesheet" href="/stylesheets/addtask.css" type="text/css" media="all" />
+	<link href="/stylesheets/bootstrap.css" rel="stylesheet">
+	<link href="/stylesheets/index.css" rel="stylesheet">  
+	<link href="/stylesheets/login.css" rel="stylesheet">
+	<link href="/stylesheets/addtask.css" rel="stylesheet">
 	<script type="text/javascript" src="/javascripts/jquery-2.1.1.js"></script>
 	<script type="text/javascript" src="/javascripts/addtask.js"></script>
-	
 	</head>
-	<body>
-		<h3> Add Task:</h3>
-		
-		<form class="js-form" action="" onsubmit="return validate()" method="post" enctype="multipart/form-data">
-			<div style="margin-top:1%">
-				<label>Task Name:</label>
-				<input type="text" placeholder="Task Name" id="taskname" name="taskname" tabindex="1" onfocus="removeMessage('errTaskName');" autocomplete="off">
-				<label style="color:red;" id="errTaskName"></label>
-			</div>
-		
-			<div style="margin-top:1%">
-				<label> Description:</label>
-				<input type="text" placeholder="Description" id="description" name="description" tabindex="2" onfocus="removeMessage('errDescription');" autocomplete="off">
-				<label style="color:red;" id="errDescription"></label>
-			</div>
-			<div style="margin-top:1%">
-				<label> Story:</label>
-				<input type="text" placeholder="Story" id="story" name="story" tabindex="2" onfocus="removeMessage('errStory');" autocomplete="off">
-				<label style="color:red;" id="errStory"></label>
-			</div>
-			<div style="margin-top:1%">
-				<h3> STEP 1</he>
-			</div>
-			<div style="margin-top:1%">
-			<div class="upload-image">
-				<div id="uploadDiv" class="toolbarItemBox" title="Upload Image" style="overflow: hidden; position: relative;">
-					<div class="upload" id="upload" class="toolbarItemIcon" ></div>
-					<input class="fileToUpload" id="taskImage" type="file" accept="image/jpg,image/jpeg,image/png,image/gif,image/bmp,image/tiff" style="" name="taskImage" onchange="readURL(event);">
+	<body style="background:rgb(254,249,245);">
+		<!-- start of header -->
+		<div >
+			<div class="container-fluid" style="border-bottom: 5px solid #0A91C8;background:white;">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="container">
+							<div class="row">
+								<div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 "  style="margin-bottom:3px;height:10%">
+												
+								</div>
+															
+							</div>
+						</div>
 					</div>
 				</div>
-			</div>
-			<div style="margin-top:1%">
-				<label> Description:</label>
-				<input type="text" placeholder="Step 1 Description" id="descriptionStep" name="descriptionStep" tabindex="2" autocomplete="off">
-				<label style="color:red;" id="errDescription"></label>
-			</div>
-			<div style="margin-top:1%">
-				<h3> STEP 2</he>
-			</div>
-			<div style="margin-top:1%">
-			<div class="upload-image">
-				<div id="uploadDiv" class="toolbarItemBox" title="Upload Image" style="overflow: hidden; position: relative;">
-					<div class="upload" id="upload2" class="toolbarItemIcon" ></div>
-					<input class="fileToUpload" id="taskImage2" type="file" accept="image/jpg,image/jpeg,image/png,image/gif,image/bmp,image/tiff" style="" name="taskImage2" onchange="readURL2(event);">
-					</div>
-				</div>
-			</div>
-			<div style="margin-top:1%">
-				<label> Description:</label>
-				<input type="text" placeholder=" Step 2 Description" id="descriptionStep2" name="descriptionStep2" tabindex="2" autocomplete="off">
-				<label style="color:red;" id="errDescription"></label>
-			</div>
 				
-			<div style="margin-top:1%;clear:both">
-				<input type="submit" class="js-submit-ajax" name="submit" value="Next"  tabindex="6" />
 			</div>
-		</form>
-		<script type="text/javascript" src="/javascripts/addstep.js"></script>
+		</div>
+		<!-- end of header -->
+		
+		<!-- start of container -->
+		<div >  
+			<div class="container-fluid" style="background:rgb(254,249,245);height:87%">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="container">
+							<div style="">
+								<div class="row" style="margin-top:1px;margin-bottom:5px">
+									<div class="col-md-10">
+										<div style="margin-top:1%;">
+											<span style="font-size:20px;color:#29A6CF">Add Task</span>
+											<hr style="border-color:rgb(20,119,160) -moz-use-text-color -moz-use-text-color ">
+										</div>
+									</div>
+								</div>
+								 <form action="" class="js-form"  onsubmit="return validate()"  method="post" enctype="multipart/form-data"> 
+								 <input type="hidden" name="step" id="step" value='<%= step %>'>
+								 
+									<div class="row" style="margin-top:1%;margin-bottom:2px">
+										<div class="col-md-3">
+											<input id="taskName" name="taskName" class="textlogin" type="text" placeholder="Task Name" tabindex="4" onfocus="removeMessage('errTaskName');" autocomplete="off"/>
+											<label style="color:red;" id="errTaskName"></label>
+										</div>
+
+									</div>
+									
+									<div class="row" style="margin-top:1%;margin-bottom:2px">
+										<div class=" col-md-3">
+											<textarea id="description" name="description" class="descriptionText" type="text" placeholder="Task Description" tabindex="4" onfocus="removeMessage('errDescription');" autocomplete="off"
+											style="resize: none;"></textarea>
+											<label style="color:red;" id="errDescription"></label>
+										</div>
+										<div class=" col-md-7">
+											<textarea id="story" name="story" class="descriptionText" type="text" placeholder="Task Story" tabindex="4" onfocus="removeMessage('errStory');" autocomplete="off"
+											style="resize: none;width:96%!important"></textarea>
+											<label style="color:red;" id="errStory"></label>
+										</div>
+									</div>
+									
+									<div class="row" style="margin-top:1%;margin-bottom:2px">
+										<div class="col-md-3" >
+											<div style="width:100%;border-right:1px solid #C6C6AA;height:60%">	
+												<div class="row" >
+													<div class="col-md-offset-2 col-md-10" style="" >
+													<button id="refresh_button" class="btn btn-second stepbutton" onclick="showStepOne()" style = "margin-left:2%" type="button"><b> Step 1</b></button>
+													<img class="" id="plus1" src="../images/plus.png" onclick="addStep()">
+													</div>
+													
+												</div>
+												<div class="row" id="step2" style="display:none" >
+													<div class="col-md-offset-2 col-md-10" style="" >
+													<button id="refresh_button" class="btn btn-second stepbutton2" onclick="showStepTwo()" style = "margin-left:2%" type="button"><b> Step 2</b></button>
+													<img class="" src="../images/plus.png" onclick="addStep2()">
+													</div>
+													
+												</div>
+											
+											
+											</div>
+										</div>
+										<div class="col-md-9"  id="step1_content" >
+											<div class="row">
+												<div class="col-md-9" >
+												<!-- <img class="img-responsive" src="images/select_image2.png"> -->
+													<div class="upload-image">
+														<div id="uploadDiv" class="toolbarItemBox" title="Upload Image" style="overflow: hidden; position: relative;">
+															<div class="upload" id="upload" class="toolbarItemIcon" ></div>
+															<input class="fileToUpload" id="taskImage" type="file" accept="image/jpg,image/jpeg,image/png,image/gif,image/bmp,image/tiff" style="" name="taskImage" onchange="readURL(event);">
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="row" style="margin-top:2%">
+												<div class="col-md-9" >
+													<textarea id="descriptionStep" name="descriptionStep" class="descriptionText" type="text" placeholder="Step Description" tabindex="4" onfocus="removeMessage('errUserLastName');" autocomplete="off" style="resize: none;"></textarea>
+													<label style="color:red;" id="errUserLastName"></label>
+												</div>
+											</div>
+											<div class="row" style="margin-top:1%;margin-bottom:5px">
+										    	<div class="col-md-offset-7 col-md-2">
+													<button id="submit" class="btn btn-second tasksubmit js-submit-ajax""  type="submit">
+													<b> Submit</b></button>
+												</div>
+											</div>
+										</div>
+										 </form>
+										<div class="col-md-9" id="step2_content" style="display:none" >
+										<form action="" class="js-form-step-2"  onsubmit="return validate()"  method="post" enctype="multipart/form-data">
+										<input type="hidden" name="taskId" id="taskId" value=''>
+											<div class="row">
+												<div class="col-md-9" >
+												<!-- <img class="img-responsive" src="images/select_image2.png"> -->
+													<div class="upload-image">
+														<div id="uploadDiv" class="toolbarItemBox" title="Upload Image" style="overflow: hidden; position: relative;">
+															<div class="upload" id="upload2" class="toolbarItemIcon" ></div>
+															<input class="fileToUpload" id="taskImage2" type="file" accept="image/jpg,image/jpeg,image/png,image/gif,image/bmp,image/tiff" style="" name="taskImage2" onchange="readURL2(event);">
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="row" style="margin-top:2%">
+												<div class="col-md-9" >
+													<textarea id="descriptionStep2" name="descriptionStep2" class="descriptionText" type="text" placeholder="Step Description" tabindex="4" onfocus="removeMessage('errUserLastName');" autocomplete="off" style="resize: none;"></textarea>
+													<label style="color:red;" id="errUserLastName"></label>
+												</div>
+											</div>
+											<div class="row" style="margin-top:1%;margin-bottom:5px">
+										    	<div class="col-md-offset-7 col-md-2">
+													<button id="submit" class="btn btn-second tasksubmit js-submit-ajax-step-2"  type="submit">
+													<b> Submit</b></button>
+												</div>
+											</div>
+											</form>
+										</div>
+									</div>
+									
+									
+									
+									
+								 </form>
+							</div>
+							
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- end of container -->
+		
+		<!-- start of footer 
+		<div style="height:10%;">
+		
+		</div> 
+		 end of footer -->
+		 <script type="text/javascript" src="/javascripts/addstep.js"></script>
 	</body>
 </html>
+

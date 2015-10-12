@@ -1,33 +1,103 @@
 <html>
 	<head>
-	<title>User Login</title>
+	<title>Login</title>
+	<link href="/stylesheets/bootstrap.css" rel="stylesheet">
+	<link href="/stylesheets/index.css" rel="stylesheet"> 
+	<link href="/stylesheets/login.css" rel="stylesheet">
 	<script type="text/javascript" src="/javascripts/jquery-2.1.1.js"></script>
 	<script type="text/javascript" src="/javascripts/userregistration.js"></script>
-
 	</head>
 	<body>
-		<h3> User Login:</h3>
-		<form action="/login" onsubmit="return validate()" method="post">
-		
-		
-    		<div ><%= message %></div>
-  		
-		
-		<div style="margin-top:1%">
-				<label>User Name:</label>
-				<input type="text" placeholder="User Name" id="username" name="username" value="" />
-				<label style="color:red;" id="errUserName"></label>
+		<!-- start of header -->
+		<div >
+			<div class="container-fluid" style="border-bottom: 5px solid #0A91C8;">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="container">
+							<div class="row">
+								<div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 "  style="margin-bottom:3px;height:12%">
+												
+								</div>
+															
+							</div>
+						</div>
+					</div>
+				</div>
+				
 			</div>
-			
-			<div style="margin-top:1%">
-				<label>Password:</label>
-				<input type="text" placeholder="Password" id="password" name="password" tabindex="1" onfocus="removeMessage('errUserName');" autocomplete="off">
-				<label style="color:red;" id="errUserName"></label>
+		</div>
+		<!-- end of header -->
+		
+		<!-- start of container -->
+		<div >  
+			<div class="container-fluid" style="background:rgb(254,249,245);height:87%">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="container">
+							<div class="row" style="margin-top:1px;margin-bottom:5px">
+								<div class="col-md-offset-2 col-md-8">
+									<div style="margin-top:6%;margin-left:9%">
+										<span style="font-size:24px;color:#29A6CF">Login</span>
+										<hr style="border-color:rgb(20,119,160) -moz-use-text-color -moz-use-text-color ">
+									</div>
+								</div>
+							</div>
+							<div class="row" style="margin-top:5%;margin-bottom:1%">
+									<div class="col-md-offset-5 col-md-7">
+										<span style="color:red"><%= message %><span>
+									</div>
+								</div>
+							<form action="/login" method="post">
+								<div class="row" style="margin-top:1%;margin-bottom:2%">
+									<div class="col-md-offset-5 col-md-3">
+										<input id="username" name="username"  class="textlogin" type="text" placeholder="User Name" tabindex="1" autocomplete="off" required="true"/>
+									</div>
+								</div>
+								
+								<div class="row" style="margin-top:1px;margin-bottom:5px">
+									<div class="col-md-offset-5 col-md-3">
+										<input id="password" name="password" class="textlogin" type="password" placeholder="Password" tabindex="2" required="true"/>
+									</div>
+								</div>
+								
+								<div class="row" style="margin-top:15px;margin-bottom:5px">
+									<div class="col-md-offset-5 col-md-3">
+										<div class="squaredThree left">
+											<input type="checkbox" value="None" id="squaredThree" name="check" tabindex="3"/>
+											<label for="squaredThree" style="margin-left:-13px;margin-top:3px"></label>
+										</div>
+										<div style="margin-top:-13px;margin-left:29px;color:#0b9dda">
+											<span>Remember me</span>
+										</div>
+									</div>
+									
+								</div>
+								
+								<div class="row" style="margin-top:1px;margin-bottom:5px">
+									<div class="col-md-offset-5 col-md-3">
+										<button id="submit" class="btn btn-second loginbutton"  type="submit" tabindex="4">
+									<b> Login</b></button>
+									</div>
+								</div>
+							</form>
+							<div class="row" style="margin-top:1px;margin-bottom:5px">
+								<div class="col-md-offset-6 col-md-2">
+									<a href="" style="color:#29A6CF !important;float:right;text-decoration:underline" tabindex="5">Forgot password??</a>
+								</div>
+							</div>
+							
+						</div>
+					</div>
+				</div>
 			</div>
-			
-			<div style="margin-top:1%">
-				<input type="submit" name="submit" value="Activate"   tabindex="6" />
-			</div>
-		</form>
+		</div>
+		<!-- end of container -->
+		
+		<!-- start of footer 
+		<div style="height:10%;">
+		
+		</div> 
+		 end of footer -->
 	</body>
 </html>
+

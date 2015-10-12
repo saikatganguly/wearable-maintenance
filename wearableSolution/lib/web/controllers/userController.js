@@ -34,7 +34,7 @@ exports.addUser= function(req , res){
 	console.log("name : "+name+" username : "+username+" email : "+email+" password : "+password);
 	userService.createUser(name,username,email,password,function(data , err){
 		console.log(data +"=======================");
-		res.render("user_registration");
+		res.redirect("/login");
 	});
 	
 	//res.render("user_registration");
@@ -71,6 +71,10 @@ exports.getMeHome=function(req , res){
 		if(data.length>0){
 			tasklist=data;	
 			res.render("dashboard", {session: req.session,"taskname":"",tasklist:data});
+		}
+		else{
+			res.render("dashboard", {session: req.session,"taskname":"",tasklist:""});
+			
 		}
 	});
 	

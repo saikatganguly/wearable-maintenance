@@ -7,18 +7,15 @@ var fs=require('fs');
 //var multipartMiddleware = multipart({uploadDir: TMP_UPLOAD_DIR});
 //var form = require('connect-form');
 exports.getTaskPage=function(req , res){
-	res.render("add_task");
+	res.render("add_task",{step:"1"});
 };
 
 exports.addTask= function(req , res){
 	
-	console.log("reached task controller body"+JSON.stringify(req.body));
-	console.log("reached task controller file"+JSON.stringify(req.files));
-	
+	console.log("reached task controller ");
 	taskService.createTask(req,function(data , err){
 		fs.unlink(req.files.taskImage.path);
-		fs.unlink(req.files.taskImage2.path);
-		res.send({msg:"success"});
+		res.send(data);
 		/*if(data.length>0){
 			var task=JSON.parse(data);
 			console.log(task);
@@ -34,10 +31,12 @@ exports.addTask= function(req , res){
 	
 };
 exports.addTaskStep= function(req , res){
-		
-	taskService.createTaskStep(req.body.taskId,req.body.description,req.files.taskImage.path,req.body.stepNumber,function(data , err){
+	console.log("reached add task step controller ");
+	taskService.createTaskStep(req,function(data , err){
 		 console.log("after callback ");
-		  var task=JSON.parse(data);
+		 fs.unlink(req.files.taskImage2.path);
+		 res.send({msg:"success"});
+		 /* var task=JSON.parse(data);
 			if(data.length>0){
 				
 				if(req.body.stepNumber == 1){
@@ -57,7 +56,7 @@ exports.addTaskStep= function(req , res){
 			
 				
 				
-			}
+			}*/
 			
 		});
 	

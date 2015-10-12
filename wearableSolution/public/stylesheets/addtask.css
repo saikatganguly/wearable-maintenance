@@ -1,11 +1,12 @@
+
 .upload-image{
- padding-left: 50px;
-    width: 217px;
+/*  padding-left: 50px; */
+    width: 100%;
 }
 #uploadDiv{
  float: left;
- border: 1px solid #aaa;
- margin-left:25px;
+ border: 0px solid #aaa;
+ width:100%;
 
 }
 .fileToUpload {
@@ -21,11 +22,11 @@
     width: auto;
 }
 .upload {
-    background: url("/images/noimage.jpg") no-repeat scroll center center rgba(0, 0, 0, 0);
-    height: 26px;
+    background: url("../images/select_image2.png") no-repeat scroll center center rgba(0, 0, 0, 0);
+   
     overflow: hidden;
     background-size: 100% 100%;
-  height: 70px;
- width: 70px;   
+  height: 45%;
+ width: 100%;   
 
 }

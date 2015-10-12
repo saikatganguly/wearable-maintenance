@@ -111,12 +111,42 @@ function validate(){
  function saveStep(){
 	 
  }
-function saveStep2(){
+function addStep(){
 	if($('#step').val()==="1"){
 		alert("save step 1");
 	}
-	 
+	else{
+		$('#step2').css('display','block');
+		$('#plus1').css('display','none');
+		/*$('#step1_content').css('display','none');
+		$('#step2_content').css('display','block');*/
+	}
+	
+ }
+function addStep(){
+	if($('#step').val()==="1"){
+		alert("save step 1");
+	}
+	else{
+		$('#step2').css('display','block');
+		$('#plus1').css('display','none');
+	}
+	
  }
 function validateStep(){
 	return true
+}
+function showStepTwo(){
+	$('#step1_content').css('display','none');
+	$('#step2_content').css('display','block');
+	$('.stepbutton2').css('background-color','#47AB47');
+	$('.stepbutton2').css('font-weight','bolder');
+	$('.stepbutton').css('background-color','#FF3300');
+}
+function showStepOne(){
+	$('#step2_content').css('display','none');
+	$('#step1_content').css('display','block');
+	$('.stepbutton').css('background-color','#47AB47');
+	$('.stepbutton').css('font-weight','bolder');
+	$('.stepbutton2').css('background-color','#FF3300');
 }

@@ -8,6 +8,7 @@ exports.createTask=function(req,callback){
 		  taskname:req.body.taskName,
 		  description:req.body.description,
 		  story:req.body.story,
+		  status:"publish",
 		  created_at :new Date(),
 		  modified_at :new Date(),
 		  step : [ {
@@ -87,3 +88,69 @@ exports.getTaskList=function(callback){
 	
 	
 };
+exports.getTaskDetailById=function(taskId,callback){
+	 Task.findOne({_id:taskId}, function(err, result){
+		    if ( err ) {console.log('err '+err);}
+
+		    if(!result){
+		    	console.log('err '+err);
+		    }
+		   var taskData={
+				   _id:result._id,
+				   taskname:result.taskname,
+					  description:result.description,
+					  status:result.status,
+					  story:result.story,
+					  descriptionStep:result.step[0].description,
+					  descriptionStep2:result.step[1].description,					 
+					  
+				   
+		   };
+		   // console.log(JSON.stringify(result));
+		    callback(taskData);
+		  
+		  });
+	
+};
+
+exports.getStepImageById=function(taskId,callback){
+	
+	 Task.findOne({_id:taskId}, function(err, result){
+		    if ( err ) {console.log('err '+err);}
+
+		    if(!result){
+		    	console.log('err '+err);
+		    }
+		   
+			var taskData={
+					   stepImage1:result.step[0].stepimage.data.toString('base64'),
+					   stepImage2:result.step[1].stepimage.data.toString('base64')
+					   
+			};
+		    callback(taskData);
+		  
+		  });
+	
+};
+
+exports.publishTaskById=function(taskId,callback){
+	
+	
+	 Task.findOne({_id:taskId}, function(err, result){
+		    if ( err ) {console.log('err '+err);}
+		    
+		    if(!result){
+		    	console.log('err '+err);
+		    }
+		   
+		    result.status="published";
+	    	result.save(function(err, result){
+		    	if (err) { console.log('err '+err);}
+			    else{
+			    
+			    callback(result._id);}
+		    });
+		  });
+	
+};
+	

@@ -46,5 +46,8 @@ module.exports = function(app) {
 	app.get("/task/addtask",appUtil.isAuthenticated, taskController.getTaskPage);
 	app.post("/task/addtask",app.get('multipartMiddleware'), taskController.addTask);
 	app.post("/task/addtaskstep",app.get('multipartMiddleware') ,taskController.addTaskStep);
+	app.post("/task/taskdetail",taskController.getTaskDetail);
+	app.post("/task/getStepImage",taskController.getStepImage);
+	app.post("/task/publishTask",taskController.publishTask);
 	app.get("/chatwindow",appUtil.isAuthenticated, userController.getChatWindow);
 }

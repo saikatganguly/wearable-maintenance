@@ -4,8 +4,6 @@ var taskService=require('../../common/service/taskService');
 var _ = require('lodash');
 var fs=require('fs');
 
-//var multipartMiddleware = multipart({uploadDir: TMP_UPLOAD_DIR});
-//var form = require('connect-form');
 exports.getTaskPage=function(req , res){
 	res.render("add_task",{step:"1",session: req.session,});
 };
@@ -58,4 +56,20 @@ exports.publishTask= function(req , res){
 		 
 	});
 	
+};
+exports.editTask= function(req , res){
+		
+	taskService.editTaskById(req,function(data , err){
+		res.send({msg:"success"});
+		 
+	});
+	 
+};
+exports.editTaskStep= function(req , res){
+	
+	taskService.editTaskStepById(req,function(data , err){
+		res.send({msg:"success"});
+		 
+	});
+	 
 };

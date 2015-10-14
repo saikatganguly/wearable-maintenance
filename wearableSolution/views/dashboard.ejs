@@ -5,6 +5,7 @@
 	<link href="/stylesheets/index.css" rel="stylesheet"> 
 	<script type="text/javascript" src="/javascripts/jquery-2.1.1.js"></script>
 	<script type="text/javascript" src="/javascripts/bootstrap.min.js"></script>
+	<script type="text/javascript" src="/javascripts/dashboard.js"></script>
 	</head>
 	<body style="background:#e9e9e9;background:rgb(254,249,245);">
 		<!-- start of header -->
@@ -131,7 +132,7 @@
 										<tbody>
 											<% for(var i=0;i < tasklist.length; i++) {%>
 												<tr>
-													<td><%= tasklist[i].taskname %></td>
+													<td onclick="showTaskDetails('<%= tasklist[i]._id%>')"><%= tasklist[i].taskname %></td>
 													<td><%= tasklist[i].taskname %></td>
 													<td><%= tasklist[i].description %></td>
 													<td><%= tasklist[i].taskname %></td>
@@ -158,6 +159,9 @@
 		
 		</div> 
 		<!-- end of footer -->
+		<form id="task_detail_form" method="post" action="/task/taskdetail">
+		<input type="hidden" name="taskId" id="detail_task_id">
+		</form>
 	</body>
 </html>
 

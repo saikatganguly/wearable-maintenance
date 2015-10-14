@@ -33,6 +33,7 @@ var taskSchema = new Schema({
 	modified_at : Date,
 	assigne: String,
 	status:String,
+	story:String,
 	step:[{stepimage: { data: Buffer, contentType: String },
 	  	description:String} ]
 });

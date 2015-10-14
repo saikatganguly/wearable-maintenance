@@ -1,0 +1,221 @@
+<html>
+	<head>
+	<title>Add Task</title>
+	<link href="/stylesheets/bootstrap.css" rel="stylesheet">
+	<link href="/stylesheets/index.css" rel="stylesheet">  
+	<link href="/stylesheets/addtask.css" rel="stylesheet">
+	<script type="text/javascript" src="/javascripts/jquery-2.1.1.js"></script>
+	<script type="text/javascript" src="/javascripts/bootstrap.min.js"></script>
+	<script type="text/javascript" src="/javascripts/addtask.js"></script>
+	</head>
+	<body style="background:rgb(254,249,245);">
+			<!-- start of header -->
+		<nav class="navbar " style="background:white;">
+			<div class="container">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			    <div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+				    <span class="sr-only">Toggle navigation</span>
+				    <span class="icon-bar"></span>
+				    <span class="icon-bar"></span>
+				    <span class="icon-bar"></span>
+				    </button>
+				    <div class="navbar-brand" ><img class="img-responsive"src="../images/logo.png" style="margin-top:1px;height:62px"/ >
+					</div>
+				</div>
+				
+			    <!-- Collect the nav links, forms, and other content for toggling -->
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				      
+				    <ul class="nav navbar-nav navbar-right">
+					    <li class="login-menu">
+							<div class="row" style="margin-right:1px;" >
+								WELCOME
+							</div>
+							<div class="row" style="margin-right:1px">
+								<b><%= session.passport.user %>!</b>
+							</div>
+							<div class="row" style="margin-right:1px">
+								kochi mobility demo 
+							</div>		
+						<li>
+					   <li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="font-weight: bold;background-color: #53b2d8;padding-top:30px;padding-bottom:32px;color:white !important;margin-right:-12">Task Detail <span class="caret"></span></a>
+				          
+							<ul class="dropdown-menu" role="menu">
+								<li class="" style="border-top:none;">
+									<a href="/home" style="color:white!important;font-weight: bold;">
+										Dashboard	
+										<hr>						
+									</a>					
+								</li>
+											
+								<li class="">
+									<a href="/chatwindow" style="color:white!important;font-weight: bold;">
+										Chat Window	<hr>			
+									</a>					
+								</li>
+								<li class="">
+									<a href="/logout" style="color:white!important;font-weight: bold;">
+										Logout
+									</a>					
+								</li>
+							</ul>
+				        </li>
+					</ul>
+					   
+				</div>
+			</div><!-- /.container-fluid -->
+		</nav>
+		<!-- end of header -->
+		
+		<!-- start of container -->
+		<div >  
+			<div class="container-fluid" style="background:rgb(254,249,245);height:87%">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="container">
+							<div style="">
+								<div class="row" style="margin-top:1px;margin-bottom:5px">
+									<div class="col-md-10">
+										<div style="margin-top:1%;">
+											<span style="font-size:20px;color:#29A6CF">Add Task</span>
+											<hr style="border-color:rgb(20,119,160) -moz-use-text-color -moz-use-text-color ">
+										</div>
+									</div>
+								</div>
+								 <form action="" class="js-form"  onsubmit="return validate()"  method="post" enctype="multipart/form-data"> 
+								 	<input type="hidden" id="taskId" name="taskId" value="<%= task._id %>">						 
+									<div class="row" style="margin-top:1%;margin-bottom:2px">
+										<div class="col-md-3">
+											<input disabled="disabled" id="taskName" name="taskName" class="textlogin" type="text" placeholder="Task Name" value="<%= task.taskname%>" tabindex="4" onfocus="removeMessage('errTaskName');" autocomplete="off"/>
+											<label style="color:red;" id="errTaskName"></label>
+										</div>
+										<div class="col-md-offset-3 col-md-2" id="edit_task">
+											
+											<button id="editTask_id" class="btn btn-second publishButton" style = "float:right" onclick="editTask()" type="button"><b> Edit Task</b></button>
+											
+										</div>
+										<div class="col-md-2" id="publish_task">
+											<%if (task.status =='publish'){%>
+											<button id="publishButton_id" class="btn btn-second publishButton" style = "margin-left:2%" type="button"><b> Publish</b></button><%}%>
+											<%if(task.status == 'published'){%>
+											<button id="" class="btn btn-second publishButton2" style = "margin-left:2%" type="button"><b> Published</b></button><%}%>
+										</div>
+
+									</div>
+									
+									<div class="row" style="margin-top:1%;margin-bottom:2px">
+										<div class=" col-md-3">
+											<textarea disabled="disabled" id="description" name="description" class="descriptionText" type="text" placeholder="Task Description" value=<%= task.description%> tabindex="4" onfocus="removeMessage('errDescription');" autocomplete="off"
+											style="resize: none;"><%= task.description%></textarea>
+											<label style="color:red;" id="errDescription"></label>
+										</div>
+										<div class=" col-md-7">
+											<textarea disabled="disabled" id="story" name="story" class="descriptionText" type="text" placeholder="Task Story" value=<%= task.story%> tabindex="4" onfocus="removeMessage('errStory');" autocomplete="off"
+											style="resize: none;width:96%!important"><%= task.story%></textarea>
+											<label style="color:red;" id="errStory"></label>
+										</div>
+									</div>
+									
+									<div class="row" style="margin-top:1%;margin-bottom:2px">
+										<div class="col-md-3" >
+											<div style="width:100%;border-right:1px solid #C6C6AA;height:60%">	
+												<div class="row" >
+													<div class="col-md-offset-2 col-md-10" style="" >
+													<button id="refresh_button" class="btn btn-second stepbutton" onclick="showStepOne()" style = "margin-left:2%" type="button"><b> Step 1</b></button>
+													<img class="" id="plus1" src="../images/plus.png" onclick="addStep()">
+													</div>
+													
+												</div>
+												<div class="row" id="step2" style="display:none" >
+													<div class="col-md-offset-2 col-md-10" style="" >
+													<button id="refresh_button" class="btn btn-second stepbutton2" onclick="showStepTwo()" style = "margin-left:2%" type="button"><b> Step 2</b></button>
+													<img class="" src="../images/plus.png" onclick="addStep2()">
+													</div>
+													
+												</div>
+											
+											
+											</div>
+										</div>
+										<div class="col-md-9"  id="step1_content" >
+											<div class="row">
+												<div class="col-md-9" >
+												<!-- <img class="img-responsive" src="images/select_image2.png"> -->
+													<div class="upload-image">
+														<div id="uploadDiv" class="toolbarItemBox" title="Upload Image" style="overflow: hidden; position: relative;">
+															<div class="upload" id="upload" class="toolbarItemIcon" style="background-image:url(data:image/jpeg;base64,)"></div>
+															<input disabled = 'true' class="fileToUpload" id="taskImage" type="file" accept="image/jpg,image/jpeg,image/png,image/gif,image/bmp,image/tiff" style="" name="taskImage" onchange="readURL(event);">
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="row" style="margin-top:2%">
+												<div class="col-md-9" >
+													<textarea disabled="disabled" id="descriptionStep" name="descriptionStep" class="descriptionText" type="text" placeholder="Step Description" tabindex="4" onfocus="removeMessage('errUserLastName');" autocomplete="off" style="resize: none;"><%= task.descriptionStep%></textarea>
+													<label style="color:red;" id="errUserLastName"></label>
+												</div>
+											</div>
+											<div class="row" style="margin-top:1%;margin-bottom:5px">
+										    	<div class="col-md-offset-7 col-md-2" style="display:none" id="submit_div_step1">
+													<button id="submit" class="btn btn-second tasksubmit js-submit-ajax""  type="submit">
+													<b> Submit</b></button>
+												</div>
+											</div>
+										</div>
+										 </form>
+										<div class="col-md-9" id="step2_content" style="display:none" >
+										<form action="" class="js-form-step-2"  onsubmit="return validate()"  method="post" enctype="multipart/form-data">
+										<input type="hidden" id="taskId" name="taskId" value="<%= task._id %>">	
+											<div class="row">
+												<div class="col-md-9" >
+												<!-- <img class="img-responsive" src="images/select_image2.png"> -->
+													<div class="upload-image">
+														<div id="uploadDiv" class="toolbarItemBox" title="Upload Image" style="overflow: hidden; position: relative;">
+															<div class="upload" id="upload2" class="toolbarItemIcon" ></div>
+															<input disabled = 'true' class="fileToUpload" id="taskImage2" type="file" accept="image/jpg,image/jpeg,image/png,image/gif,image/bmp,image/tiff" style="" name="taskImage2" onchange="readURL2(event);">
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="row" style="margin-top:2%">
+												<div class="col-md-9" >
+													<textarea disabled="disabled" id="descriptionStep2" name="descriptionStep2" class="descriptionText" type="text" placeholder="Step Description" tabindex="4" onfocus="removeMessage('errUserLastName');" autocomplete="off" style="resize: none;"><%= task.descriptionStep2%></textarea>
+													<label style="color:red;" id="errUserLastName"></label>
+												</div>
+											</div>
+											<div class="row" style="margin-top:1%;margin-bottom:5px">
+										    	<div class="col-md-offset-7 col-md-2" style="display:none" id="submit_div_step1">
+													<button id="submit" class="btn btn-second tasksubmit js-submit-ajax-step-2"  type="submit">
+													<b> Submit</b></button>
+												</div>
+											</div>
+											</form>
+										</div>
+									</div>
+									
+									
+									
+									
+								 </form>
+							</div>
+							
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- end of container -->
+		
+		<!-- start of footer 
+		<div style="height:10%;">
+		
+		</div> 
+		 end of footer -->
+		 <script type="text/javascript" src="/javascripts/addstep.js"></script>
+		 <script type="text/javascript" src="/javascripts/taskdetail.js"></script>
+		
+	</body>
+</html>
+

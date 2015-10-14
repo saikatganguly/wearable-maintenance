@@ -162,7 +162,7 @@ function publishData(){
 	$.ajax({
         type: 'post',
         data:{taskId:$('#taskId').val()},
-        url: '/task/publishTask' 
+        url: '/task/publishtask' 
     }).done(function( response ) {
     		
     	if(response.length >0){

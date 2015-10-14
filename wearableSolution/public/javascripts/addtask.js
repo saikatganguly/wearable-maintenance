@@ -1,4 +1,11 @@
-
+(function() {
+	
+	
+	$("#publishButton_id").on('click',publishData);
+	
+	
+	
+}());
 
 
 function validate(){
@@ -149,4 +156,23 @@ function showStepOne(){
 	$('.stepbutton').css('background-color','#47AB47');
 	$('.stepbutton').css('font-weight','bolder');
 	$('.stepbutton2').css('background-color','#FF3300');
+}
+function publishData(){
+	
+	$.ajax({
+        type: 'post',
+        data:{taskId:$('#taskId').val()},
+        url: '/task/publishTask' 
+    }).done(function( response ) {
+    		
+    	if(response.length >0){
+    		$('#publishButton_id').text("Published");
+    		$('#publishButton_id').css("background-color","#ff3300");
+    		//$("#publishButton_id").attr('id','published');
+    		$("#publishButton_id").prop('onclick',null).off('click');
+    	}
+    	else{
+    		alert("not published");
+    	}
+    });
 }

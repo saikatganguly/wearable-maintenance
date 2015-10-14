@@ -95,7 +95,7 @@
       processData: false
     })
     .done(function( responce ) {
-var data=JSON.parse(responce);
+    	var data=JSON.parse(responce);
         // Check for successful (blank) response
         if (data.taskId.length >0) {
         	alert("Task is saved!!!" +data.taskId );
@@ -129,7 +129,7 @@ var data=JSON.parse(responce);
 	        // Check for successful (blank) response
 	        if (responce.msg=="success") {
 	        	alert("step2 is saved!!!" );
-	        	
+	        	$('#publish_task').css('display','block');
 
 	        }
 	        else {

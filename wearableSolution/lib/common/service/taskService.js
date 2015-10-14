@@ -153,4 +153,67 @@ exports.publishTaskById=function(taskId,callback){
 		  });
 	
 };
+exports.editTaskById=function(req,callback){
+	
+	
+	 Task.findOne({_id:req.body.taskId}, function(err, result){
+		    if ( err ) {console.log('err '+err);}
+		    
+		    if(!result){
+		    	console.log('err '+err);
+		    }
+		    
+		    result.taskname=req.body.taskName;
+		    result.description=req.body.description;
+		    result.story=req.body.story;
+		    result.modified_at =new Date();
+		    result.step[0].description=req.body.descriptionStep;
+		   // console.log(req.files.length);
+		    if(JSON.stringify(req.files) != '{}'){
+		    	result.step[0].stepimage.data=fs.readFileSync(req.files.taskImage.path);
+		    }
+				 /* step : [ {
+						description : req.body.descriptionStep,
+						stepimage : {
+							data : fs.readFileSync(req.files.taskImage.path),
+							contentType : 'image/png',
+						},
+					}, 
+					],
+				}*/
+		    //result.status="published";
+	    	result.save(function(err, result){
+		    	if (err) { console.log('err '+err);}
+			    else{
+			    
+			    callback(result._id);}
+		    });
+		  });
+	
+};
+exports.editTaskStepById=function(req,callback){
+
+	 Task.findOne({_id:req.body.taskId}, function(err, result){
+		    if ( err ) {console.log('err '+err);}
+		    
+		    if(!result){
+		    	console.log('err '+err);
+		    }
+		    
+		    result.modified_at =new Date();
+		    result.step[1].description=req.body.descriptionStep2;
+		   // console.log(req.files.length);
+		    if(JSON.stringify(req.files) != '{}'){
+		    	result.step[1].stepimage.data=fs.readFileSync(req.files.taskImage2.path);
+		    }
+				
+	    	result.save(function(err, result){
+		    	if (err) { console.log('err '+err);}
+			    else{
+			    
+			    callback(result._id);}
+		    });
+		  });
+	
+};
 	

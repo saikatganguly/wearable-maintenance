@@ -26,7 +26,6 @@ var taskSchema = new Schema({
 	taskname :{
 		type : String,
 		required : true,
-		unique : true
 	},
 	description:String,
 	created_at : Date,

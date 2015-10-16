@@ -52,6 +52,10 @@ User.pre('save', function(next) {
 		console.log("not modified");
 		return next();
 	}
+	
+	console.log("Inserting Authtoken");
+	user.authToken=user.username+user.password;
+	user.role="ROLE_USER";
 	console.log("getting salt value");
 	var salt = crypto.randomBytes(128).toString('base64');
 	  /*crypto.pbkdf2(user.password, salt, 10000, 512, function(err, derivedKey) {

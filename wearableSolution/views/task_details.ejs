@@ -6,10 +6,10 @@
 	<link href="/stylesheets/addtask.css" rel="stylesheet">
 	<script type="text/javascript" src="/javascripts/jquery-2.1.1.js"></script>
 	<script type="text/javascript" src="/javascripts/bootstrap.min.js"></script>
-	
+	<script type="text/javascript" src="/javascripts/addtask.js"></script>
 	</head>
 	<body style="background:rgb(254,249,245);">
-		<!-- start of header -->
+			<!-- start of header -->
 		<nav class="navbar " style="background:white;">
 			<div class="container">
 			<!-- Brand and toggle get grouped for better mobile display -->
@@ -40,7 +40,7 @@
 							</div>		
 						<li>
 					   <li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="font-weight: bold;background-color: #53b2d8;padding-top:30px;padding-bottom:32px;color:white !important;margin-right:-12">Add Task <span class="caret"></span></a>
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="font-weight: bold;background-color: #53b2d8;padding-top:30px;padding-bottom:32px;color:white !important;margin-right:-12">Task Detail <span class="caret"></span></a>
 				          
 							<ul class="dropdown-menu" role="menu">
 								<li class="" style="border-top:none;">
@@ -85,28 +85,35 @@
 									</div>
 								</div>
 								 <form action="" class="js-form"  onsubmit="return validate()"  method="post" enctype="multipart/form-data"> 
-								 <input type="hidden" name="step" id="step" value='<%= step %>'>
-								 
+								 	<input type="hidden" id="taskId" name="taskId" value="<%= task._id %>">						 
 									<div class="row" style="margin-top:1%;margin-bottom:2px">
 										<div class="col-md-3">
-											<input id="taskName" name="taskName" class="textlogin" type="text" placeholder="Task Name" tabindex="4" onfocus="removeMessage('errTaskName');" autocomplete="off"/>
+											<input disabled="disabled" id="taskName" name="taskName" class="textlogin" type="text" placeholder="Task Name" value="<%= task.taskname%>" tabindex="4" onfocus="removeMessage('errTaskName');" autocomplete="off"/>
 											<label style="color:red;" id="errTaskName"></label>
 										</div>
-										<div class="col-md-offset-5 col-md-1" id="publish_task" style="display:none">
-											<button id="publishButton_id" class="btn btn-second publishButton"  style = "margin-left:2%" type="button"><b> Publish</b></button>
+										<div class="col-md-offset-3 col-md-2" id="edit_task">
+											
+											<button id="editTask_id" class="btn btn-second publishButton" style = "float:right" onclick="editTask()" type="button"><b> Edit Task</b></button>
+											
+										</div>
+										<div class="col-md-2" id="publish_task">
+											<%if (task.status =='publish'){%>
+											<button id="publishButton_id" class="btn btn-second publishButton" style = "margin-left:2%" type="button"><b> Publish</b></button><%}%>
+											<%if(task.status == 'published'){%>
+											<button id="" class="btn btn-second publishButton2" style = "margin-left:2%" type="button"><b> Published</b></button><%}%>
 										</div>
 
 									</div>
 									
 									<div class="row" style="margin-top:1%;margin-bottom:2px">
 										<div class=" col-md-3">
-											<textarea id="description" name="description" class="descriptionText" type="text" placeholder="Task Description" tabindex="4" onfocus="removeMessage('errDescription');" autocomplete="off"
-											style="resize: none;"></textarea>
+											<textarea disabled="disabled" id="description" name="description" class="descriptionText" type="text" placeholder="Task Description" value=<%= task.description%> tabindex="4" onfocus="removeMessage('errDescription');" autocomplete="off"
+											style="resize: none;"><%= task.description%></textarea>
 											<label style="color:red;" id="errDescription"></label>
 										</div>
 										<div class=" col-md-7">
-											<textarea id="story" name="story" class="descriptionText" type="text" placeholder="Task Story" tabindex="4" onfocus="removeMessage('errStory');" autocomplete="off"
-											style="resize: none;width:96%!important"></textarea>
+											<textarea disabled="disabled" id="story" name="story" class="descriptionText" type="text" placeholder="Task Story" value=<%= task.story%> tabindex="4" onfocus="removeMessage('errStory');" autocomplete="off"
+											style="resize: none;width:96%!important"><%= task.story%></textarea>
 											<label style="color:red;" id="errStory"></label>
 										</div>
 									</div>
@@ -138,20 +145,20 @@
 												<!-- <img class="img-responsive" src="images/select_image2.png"> -->
 													<div class="upload-image">
 														<div id="uploadDiv" class="toolbarItemBox" title="Upload Image" style="overflow: hidden; position: relative;">
-															<div class="upload" id="upload" class="toolbarItemIcon" ></div>
-															<input class="fileToUpload" id="taskImage" type="file" accept="image/jpg,image/jpeg,image/png,image/gif,image/bmp,image/tiff" style="" name="taskImage" onchange="readURL(event);">
+															<div class="upload" id="upload" class="toolbarItemIcon" style="background-image:url(data:image/jpeg;base64,)"></div>
+															<input disabled = 'true' class="fileToUpload" id="taskImage" type="file" accept="image/jpg,image/jpeg,image/png,image/gif,image/bmp,image/tiff" style="" name="taskImage" onchange="readURL(event);">
 														</div>
 													</div>
 												</div>
 											</div>
 											<div class="row" style="margin-top:2%">
 												<div class="col-md-9" >
-													<textarea id="descriptionStep" name="descriptionStep" class="descriptionText" type="text" placeholder="Step Description" tabindex="4" onfocus="removeMessage('errUserLastName');" autocomplete="off" style="resize: none;"></textarea>
+													<textarea disabled="disabled" id="descriptionStep" name="descriptionStep" class="descriptionText" type="text" placeholder="Step Description" tabindex="4" onfocus="removeMessage('errUserLastName');" autocomplete="off" style="resize: none;"><%= task.descriptionStep%></textarea>
 													<label style="color:red;" id="errUserLastName"></label>
 												</div>
 											</div>
 											<div class="row" style="margin-top:1%;margin-bottom:5px">
-										    	<div class="col-md-offset-7 col-md-2">
+										    	<div class="col-md-offset-7 col-md-2" style="display:none" id="submit_div_step1">
 													<button id="submit" class="btn btn-second tasksubmit js-submit-ajax""  type="submit">
 													<b> Submit</b></button>
 												</div>
@@ -160,26 +167,26 @@
 										 </form>
 										<div class="col-md-9" id="step2_content" style="display:none" >
 										<form action="" class="js-form-step-2"  onsubmit="return validate()"  method="post" enctype="multipart/form-data">
-										<input type="hidden" name="taskId" id="taskId" value=''>
+										<input type="hidden" id="taskId" name="taskId" value="<%= task._id %>">	
 											<div class="row">
 												<div class="col-md-9" >
 												<!-- <img class="img-responsive" src="images/select_image2.png"> -->
 													<div class="upload-image">
 														<div id="uploadDiv" class="toolbarItemBox" title="Upload Image" style="overflow: hidden; position: relative;">
 															<div class="upload" id="upload2" class="toolbarItemIcon" ></div>
-															<input class="fileToUpload" id="taskImage2" type="file" accept="image/jpg,image/jpeg,image/png,image/gif,image/bmp,image/tiff" style="" name="taskImage2" onchange="readURL2(event);">
+															<input disabled = 'true' class="fileToUpload" id="taskImage2" type="file" accept="image/jpg,image/jpeg,image/png,image/gif,image/bmp,image/tiff" style="" name="taskImage2" onchange="readURL2(event);">
 														</div>
 													</div>
 												</div>
 											</div>
 											<div class="row" style="margin-top:2%">
 												<div class="col-md-9" >
-													<textarea id="descriptionStep2" name="descriptionStep2" class="descriptionText" type="text" placeholder="Step Description" tabindex="4" onfocus="removeMessage('errUserLastName');" autocomplete="off" style="resize: none;"></textarea>
+													<textarea disabled="disabled" id="descriptionStep2" name="descriptionStep2" class="descriptionText" type="text" placeholder="Step Description" tabindex="4" onfocus="removeMessage('errUserLastName');" autocomplete="off" style="resize: none;"><%= task.descriptionStep2%></textarea>
 													<label style="color:red;" id="errUserLastName"></label>
 												</div>
 											</div>
 											<div class="row" style="margin-top:1%;margin-bottom:5px">
-										    	<div class="col-md-offset-7 col-md-2">
+										    	<div class="col-md-offset-7 col-md-2" style="display:none" id="submit_div_step2">
 													<button id="submit" class="btn btn-second tasksubmit js-submit-ajax-step-2"  type="submit">
 													<b> Submit</b></button>
 												</div>
@@ -206,8 +213,9 @@
 		
 		</div> 
 		 end of footer -->
-		 <script type="text/javascript" src="/javascripts/addstep.js"></script>
-		 <script type="text/javascript" src="/javascripts/addtask.js"></script>
+		<!-- <script type="text/javascript" src="/javascripts/addstep.js"></script> -->
+		 <script type="text/javascript" src="/javascripts/taskdetail.js"></script>
+		
 	</body>
 </html>
 

@@ -26,13 +26,13 @@ var taskSchema = new Schema({
 	taskname :{
 		type : String,
 		required : true,
-		unique : true
 	},
 	description:String,
 	created_at : Date,
 	modified_at : Date,
 	assigne: String,
 	status:String,
+	story:String,
 	step:[{stepimage: { data: Buffer, contentType: String },
 	  	description:String} ]
 });

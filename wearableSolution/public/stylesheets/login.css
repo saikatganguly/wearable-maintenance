@@ -22,35 +22,7 @@
 	height: 40px;	
 	width: 100%;
 }
-.descriptionText
-{
-	padding-top:10px;
-    padding-left: 20px;
-	border:1px solid #C4DBE6;	
-	border-radius:5px;	
-	height: 80px;	
-	width: 100%;
-}
-.stepbutton{
-width:133px !important;
-background-color:#47AB47;
-margin-top: 5px;
-border-radius:5px;
-height:35px;
-}
-.stepbutton2{
-width:133px !important;
-background-color:#FF3300;
-margin-top: 5px;
-border-radius:5px;
-height:35px;
-}
-.btn:hover{
-color:white !important;
-}
-.btn{
-color:white !important;
-}
+
 .loginbutton{
 background-color: rgb(30, 146, 255);
     border-radius: 6px;
@@ -58,14 +30,7 @@ background-color: rgb(30, 146, 255);
     margin-top: 5px;
     width: 100%;
 }
-.tasksubmit{
-background-color: rgb(30, 146, 255);
-    border-radius: 6px;
-    height: 40px;
-    margin-top: 5px;
-    width: 100px;
-	float:right;
-}
+
 .squaredThree {
     width: 20px;    
     position: relative;
@@ -114,4 +79,10 @@ background-color: rgb(30, 146, 255);
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
     filter: alpha(opacity=100);
     opacity: 1;
+}
+.btn:hover{
+color:white !important;
+}
+.btn{
+color:white !important;
 }

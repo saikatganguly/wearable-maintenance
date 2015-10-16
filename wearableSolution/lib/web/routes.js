@@ -31,7 +31,15 @@ module.exports = function(app) {
 		    if (!user) { return res.render('login' , {"message" : "Not authorized"}); }
 		    req.logIn(user, function(err) {
 		      if (err) { return next(err); }
-		      return res.redirect('/home');
+		      req.session.username=user.username;
+		      req.session.role = user.role;
+		      if(user.role==="ROLE_ADMIN"){
+		    	  return res.redirect('/home');  
+		      }
+		      else if(user.role==="ROLE_USER"){
+		    	  return res.redirect('/user/activate');
+		      }
+		      
 		    });
 		  })(req, res, next);
 		});

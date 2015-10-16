@@ -8,4 +8,5 @@ module.exports=function(app){
 	var taskController = require("./controllers/taskController");
 	app.get("/api/user/test" , userController.testUser);
 	app.get("/api/task/gettask" , taskController.getTask);
+	app.post("/api/login" , userController.login);
 }

@@ -46,6 +46,12 @@ exports.activateUser=function (username , accesscode , callback){
 	User.findOne({ username: username }, function (err, doc){
 		  doc.accesscode = accesscode;
 		  doc.save();
-		})
+		});
 		callback(true);
-}
+};
+
+exports.getUserByUsername=function(username , callback){
+	User.findOne({ username: username }, function (err, doc){
+		  callback(doc);
+		});
+};

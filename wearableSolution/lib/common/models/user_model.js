@@ -19,6 +19,7 @@ var User = new Schema({
 	},
 	password : String,
 	admin : Boolean,
+	role : String,
 	accesscode : String,
 	key : String,
 	authToken : String,

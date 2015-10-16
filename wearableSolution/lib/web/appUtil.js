@@ -7,6 +7,7 @@ exports.isAuthenticated=function(req, res, next){
 	console.log("checking authentication +"+req.user);
 	 if (req.isAuthenticated()){
 		 	console.log("User authenticated");
+		 	console.log("User found : "+req.session.username);
 		   return next();
 	 }
 	     

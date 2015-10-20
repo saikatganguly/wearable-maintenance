@@ -40,11 +40,11 @@ exports.createUser=function(name,username,email,password, callback){
         	callback(true);
         }
     });
-}
+};
 
-exports.activateUser=function (username , accesscode , callback){
-	User.findOne({ username: username }, function (err, doc){
-		  doc.accesscode = accesscode;
+exports.activateUser=function (authToken , activationCode , callback){
+	User.findOne({ authToken: authToken }, function (err, doc){
+		  doc.accesscode = activationCode;
 		  doc.save();
 		});
 		callback(true);

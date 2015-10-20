@@ -1,11 +1,11 @@
 <html>
 	<head>
 	<title>Add Task</title>
-	<link href="/stylesheets/bootstrap.css" rel="stylesheet">
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 	<link href="/stylesheets/index.css" rel="stylesheet">  
 	<link href="/stylesheets/addtask.css" rel="stylesheet">
 	<script type="text/javascript" src="/javascripts/jquery-2.1.1.js"></script>
-	<script type="text/javascript" src="/javascripts/bootstrap.min.js"></script>
+	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 	
 	</head>
 	<body style="background:rgb(254,249,245);">
@@ -201,13 +201,44 @@
 		</div>
 		<!-- end of container -->
 		
-		<!-- start of footer 
-		<div style="height:10%;">
 		
-		</div> 
-		 end of footer -->
+		
+		 <!-- Modal -->
+		<div id="myModal2" class="modal fade " role="dialog" >
+	  		<div class="modal-dialog">
+	    		<!-- Modal content-->
+		    	<div class="modal-content" style="background:rgb(254,249,245);">
+		      		<div class="modal-header">
+		        		<button type="button" class="close" data-dismiss="modal" style="opacity: 1; background-color: rgb(0, 46, 184); color: white; border-radius: 13px; width: 29px ! important; margin-right: -28px; margin-top: -30px; border: 3px solid white;">&times;</button>
+		        		<h4 class="modal-title" style="color:#002EB8;font-weight:bolder" id="alert_title"></h4>
+		      		</div>
+		     		 <div class="modal-body" >
+		     		 	<div class="modal-body" style="background-color:#EDF1FB">
+		     		  		<div class="row">
+		     		  			<div class="col-md-offset-3 col-md-11">
+		     		  				<span style="font-size:16px;color:#47ab47;font-weight:bolder" id="model_content"></span>
+		     		  			</div>
+		     		  			
+		     				 </div>
+		     				 <div style="margin-top:1%"></div>
+		     				 <div class="row">
+		     				 	<div class="col-md-offset-10 col-md-2">
+		       			 			<button type="button" class="btn btn-assign-task" onclick="closeModel()"data-dismiss="modal">OK</button>
+		       			 		</div>
+		      				</div>
+		     				
+		     		 	</div>
+		       			
+		      		</div>
+		      		
+		    	</div>
+	
+	  		</div>
+		</div>
+		<!--End Modal -->
 		 <script type="text/javascript" src="/javascripts/addstep.js"></script>
 		 <script type="text/javascript" src="/javascripts/addtask.js"></script>
+		 
 	</body>
 </html>
 

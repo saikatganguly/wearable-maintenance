@@ -23,8 +23,8 @@
 		      return handleError('Sorry! Your browser doesn\'t support FormData');
 		    }
 
-		    disableSubmit();
-		    postFormAjaxStep2(onPostFormSuccess, onPostFormError, onPostFormComplete);
+		    disableSubmit2();
+		    postFormAjaxStep2(onPostFormSuccess, onPostFormError, onPostFormComplete2);
 		    
 		  }
 
@@ -33,18 +33,27 @@
 	  function disableSubmit() {
 	    $submitAjax.attr('disabled', true);
 	    $submitAjax.text('Processing...');
-	    $submitAjaxStep2.attr('disabled', true);
-	    $submitAjaxStep2.text('Processing...');
+	   
 	   
 	  }
+	  function disableSubmit2() {
+		    
+		    $submitAjaxStep2.attr('disabled', true);
+		    $submitAjaxStep2.text('Processing...');
+		   
+		  }
 
 	  function enableSubmit() {
 	    $submitAjax.attr('disabled', false);
 	    $submitAjax.text('Submited');
-	    $submitAjaxStep2.attr('disabled', false);
-	    $submitAjaxStep2.text('Submited');
+	    
 	    
 	  }
+	  function enableSubmit2() {
+		    $submitAjaxStep2.attr('disabled', false);
+		    $submitAjaxStep2.text('Submited');
+		    
+		  }
 
 	  function handleSuccess(data) {
 	    console.log('Success:', data);
@@ -78,9 +87,11 @@
 	      contentType: false,
 	      processData: false
 	    })
-	    .done(function( responce ) {
+	    .done(function( response ) {
 	    	
-	    	alert("Task is saved!!!" );
+	    	$('#alert_title').text('Success');
+   		 $('#model_content').text('Task updated successfully!!!');
+   		 $("#myModal2").modal('show');
 	       
 	    })
 	    .fail(fail)
@@ -96,13 +107,20 @@
 		      contentType: false,
 		      processData: false
 		    })
-		    .done(function( responce ) {
-		        if (responce.msg=="success") {
-		        	alert("step2 is saved!!!" );
+		    .done(function( response ) {
+		        if (response.msg=="success") {
+		        	$('#alert_title').text('Success');
+		    		 $('#model_content').text('Step2 updated successfully!!!');
+		    		 $("#myModal2").modal('show');
+		        	//alert("step2 is saved!!!" );
 		        }
 		        else {
+		        	$('#alert_title').text('Failure');
+		        	$('#model_content').css('color','red');
+		        	$('#model_content').text('Step2 Not updated successfully!!!');
+		    		 $("#myModal2").modal('show');
 
-		            alert('Error: ' + response.msg);
+		          //  alert('Error: ' + response.msg);
 
 		        }
 		    })
@@ -116,6 +134,9 @@
 	  function onPostFormComplete(response) {
 	    enableSubmit();
 	  }
+	  function onPostFormComplete2(response) {
+		    enableSubmit2();
+		  }
 
 	  function onPostFormSuccess(response) {
 	    handleSuccess(response);
@@ -164,6 +185,7 @@ function publishData(){
     		$('#publishButton_id').text("Published");
     		$('#publishButton_id').css("background-color","#ff3300");
     		$("#publishButton_id").prop('onclick',null).off('click');
+    		$('#editTask_id').css("display","none");
     	}
     	else{
     		alert("not published");
@@ -181,3 +203,6 @@ function editTask(){
 	 $('#submit_div_step2').css("display","block");
 }
 
+function closeModel(){
+	$("#myModal2").modal('hide');
+}

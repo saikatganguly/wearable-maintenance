@@ -88,6 +88,15 @@ exports.getTaskList=function(callback){
 	
 	
 };
+
+exports.getPublishedTaskList=function(callback){
+	
+	Task.find({"status":"published"},{},function(e,data){
+		 callback(data);
+    });
+	
+	
+};
 exports.getTaskDetailById=function(taskId,callback){
 	 Task.findOne({_id:taskId}, function(err, result){
 		    if ( err ) {console.log('err '+err);}
@@ -216,4 +225,23 @@ exports.editTaskStepById=function(req,callback){
 		  });
 	
 };
+exports.assignTaskByTaskId=function(req,callback){
 	
+	
+	 Task.findOne({_id:req.body.taskId}, function(err, result){
+		    if ( err ) {console.log('err '+err);}
+		    
+		    if(!result){
+		    	console.log('err '+err);
+		    }
+		    result.status="assigned";
+		    result.assigne=req.body.userId;
+	    	result.save(function(err, result){
+		    	if (err) { console.log('err '+err);}
+			    else{
+			    
+			    callback(result._id);}
+		    });
+		  });
+	
+};

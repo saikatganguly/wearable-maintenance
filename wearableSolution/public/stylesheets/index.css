@@ -8,6 +8,21 @@ body{
   	position:static;
   	top:-50px;
 }
+.task_detail{
+	cursor: pointer;
+}
+.input3{
+	text-indent:0px;
+	width:83%;
+	height:31px;
+	padding-top:5px;
+	display:block;
+	background:url(../images/select_box_image2.png) 0px 0px no-repeat transparent; 
+	border:none;
+	-webkit-appearance:none;
+    -moz-appearance:none;
+    appearance:none;
+	}
 #nav.affix {
 	position: fixed;
 	top: 0;
@@ -37,6 +52,29 @@ body{
     color: #fff;
 	width:150px;
 	height:31px;
+}
+.btn-assign-task {
+    
+   /*  border-color: #204d74; */
+   border-radius:0px;
+    color: #fff;
+	width:100px;
+	height:31px;
+	float: right;
+	background-color:#002EB8;
+	margin-right: 2%;
+	margin-top: 5px;
+}
+.btn-close-model {
+    
+   opacity: 1; 
+   background-color: rgb(0, 46, 184); 
+   color: white;
+   border-radius: 13px;
+   width: 29px ! important;
+   margin-right: -28px;
+   margin-top: -30px;
+   border: 3px solid white;
 }
 .navbar-brand {
     color: #fff !important;
@@ -100,7 +138,7 @@ body{
 	margin-bottom:0;
 	min-height: 0;
 	border-radius: 0;
-	border-bottom: 5px solid #0A91C8;
+	border-bottom: 5px solid #0A91C8 !important;
 }
 .navbar-default {
    background-color: #1d4966;
@@ -182,4 +220,7 @@ color:white !important;
 }
 .btn{
 color:white !important;
+}
+.dropdown-menu>li>a:focus,.dropdown-menu > li > a:hover{
+	background-color: #53b2d8;
 }

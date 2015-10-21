@@ -6,7 +6,7 @@ var User = require('../models/user_model');
 
 exports.getUserById= function(id , callback){
 	callback(id+123 , null);
-}
+};
 
 exports.createUser=function(name,username,email,password, callback){
 	var user1;
@@ -52,6 +52,11 @@ exports.activateUser=function (authToken , activationCode , callback){
 
 exports.getUserByUsername=function(username , callback){
 	User.findOne({ username: username }, function (err, doc){
+		  callback(doc);
+		});
+};
+exports.getUserByRole=function(callback){
+	User.find({"role": "ROLE_USER" },{}, function (err, doc){
 		  callback(doc);
 		});
 };

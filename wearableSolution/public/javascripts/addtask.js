@@ -120,7 +120,9 @@ function validate(){
  }
 function addStep(){
 	if($('#step').val()==="1"){
-		alert("save step 1");
+		$('#alert_title').text('Alert Message');
+		 $('#model_content').text('Save step 1 before proceed');
+		 $("#myModal2").modal('show');
 	}
 	else{
 		$('#step2').css('display','block');
@@ -130,16 +132,7 @@ function addStep(){
 	}
 	
  }
-function addStep(){
-	if($('#step').val()==="1"){
-		alert("save step 1");
-	}
-	else{
-		$('#step2').css('display','block');
-		$('#plus1').css('display','none');
-	}
-	
- }
+
 function validateStep(){
 	return true
 }
@@ -175,4 +168,7 @@ function publishData(){
     		alert("not published");
     	}
     });
+}
+function closeModel(){
+	$("#myModal2").modal('hide');
 }

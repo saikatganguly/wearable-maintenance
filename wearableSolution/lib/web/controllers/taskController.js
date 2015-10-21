@@ -58,8 +58,10 @@ exports.publishTask= function(req , res){
 	
 };
 exports.editTask= function(req , res){
-		
+	
 	taskService.editTaskById(req,function(data , err){
+		if(JSON.stringify(req.files) != '{}'){
+			fs.unlink(req.files.taskImage.path);}
 		res.send({msg:"success"});
 		 
 	});
@@ -68,8 +70,19 @@ exports.editTask= function(req , res){
 exports.editTaskStep= function(req , res){
 	
 	taskService.editTaskStepById(req,function(data , err){
+		if(JSON.stringify(req.files) != '{}'){
+		fs.unlink(req.files.taskImage2.path);}
 		res.send({msg:"success"});
 		 
 	});
 	 
+};
+exports.assignTask= function(req , res){
+	
+	//res.send({msg:"success"});
+	 taskService.assignTaskByTaskId(req,function(data , err){
+		 res.send({msg:"success"});
+		 
+	});
+	
 };

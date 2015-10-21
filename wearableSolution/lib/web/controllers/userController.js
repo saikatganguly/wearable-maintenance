@@ -67,13 +67,36 @@ exports.unauthorized=function(req , res){
 
 exports.getMeHome=function(req , res){
 	var tasklist="";
+	var publishedTaskList="";
 	taskService.getTaskList(function(data,err){
 		if(data.length>0){
 			tasklist=data;	
-			res.render("dashboard", {session: req.session,"taskname":"",tasklist:data});
+			taskService.getPublishedTaskList(function(data,err){
+				if(data.length>0){
+					publishedTaskList=data;	
+					userService.getUserByRole(function(data,err){
+						if(data.length>0){
+							
+							res.render("dashboard", {session: req.session,"taskname":"",tasklist:tasklist,publishtasklist:publishedTaskList,userlist:data});
+						}
+						else{
+							res.render("dashboard", {session: req.session,"taskname":"",tasklist:tasklist,publishtasklist:publishedTaskList,userlist:""});
+						}
+						
+					});
+					
+				}
+				else{
+					res.render("dashboard", {session: req.session,"taskname":"",tasklist:tasklist,publishtasklist:"",userlist:""});
+				}
+				
+			});
+			
+			
+			
 		}
 		else{
-			res.render("dashboard", {session: req.session,"taskname":"",tasklist:""});
+			res.render("dashboard", {session: req.session,"taskname":"",tasklist:"",publishtasklist:"",userlist:""});
 			
 		}
 	});

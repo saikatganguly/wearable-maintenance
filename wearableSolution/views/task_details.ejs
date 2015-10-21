@@ -1,11 +1,11 @@
 <html>
 	<head>
 	<title>Add Task</title>
-	<link href="/stylesheets/bootstrap.css" rel="stylesheet">
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 	<link href="/stylesheets/index.css" rel="stylesheet">  
 	<link href="/stylesheets/addtask.css" rel="stylesheet">
 	<script type="text/javascript" src="/javascripts/jquery-2.1.1.js"></script>
-	<script type="text/javascript" src="/javascripts/bootstrap.min.js"></script>
+	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="/javascripts/addtask.js"></script>
 	</head>
 	<body style="background:rgb(254,249,245);">
@@ -91,6 +91,8 @@
 											<input disabled="disabled" id="taskName" name="taskName" class="textlogin" type="text" placeholder="Task Name" value="<%= task.taskname%>" tabindex="4" onfocus="removeMessage('errTaskName');" autocomplete="off"/>
 											<label style="color:red;" id="errTaskName"></label>
 										</div>
+										<!-- start of code -->
+										<%if (task.status =='publish'){%>
 										<div class="col-md-offset-3 col-md-2" id="edit_task">
 											
 											<button id="editTask_id" class="btn btn-second publishButton" style = "float:right" onclick="editTask()" type="button"><b> Edit Task</b></button>
@@ -99,9 +101,19 @@
 										<div class="col-md-2" id="publish_task">
 											<%if (task.status =='publish'){%>
 											<button id="publishButton_id" class="btn btn-second publishButton" style = "margin-left:2%" type="button"><b> Publish</b></button><%}%>
-											<%if(task.status == 'published'){%>
-											<button id="" class="btn btn-second publishButton2" style = "margin-left:2%" type="button"><b> Published</b></button><%}%>
 										</div>
+										<%}%>
+										<%if(task.status == 'published'){%>
+										<div class="col-md-offset-5 col-md-2" id="published_task">
+											<button id="" class="btn btn-second publishButton2" style = "margin-left:2%" type="button"><b> Published</b></button>
+										</div>
+										<%}%>
+										<%if(task.status == 'assigned'){%>
+										<div class="col-md-offset-5 col-md-2" id="published_task">
+											<button id="" class="btn btn-second publishButton2" style = "margin-left:2%" type="button"><b> assigned</b></button>
+										</div>
+										<%}%>
+										<!-- end of code -->
 
 									</div>
 									
@@ -124,11 +136,11 @@
 												<div class="row" >
 													<div class="col-md-offset-2 col-md-10" style="" >
 													<button id="refresh_button" class="btn btn-second stepbutton" onclick="showStepOne()" style = "margin-left:2%" type="button"><b> Step 1</b></button>
-													<img class="" id="plus1" src="../images/plus.png" onclick="addStep()">
+													<img class=""style="display:none" id="plus1" src="../images/plus.png" onclick="addStep()">
 													</div>
 													
 												</div>
-												<div class="row" id="step2" style="display:none" >
+												<div class="row" id="step2" style="display:block" >
 													<div class="col-md-offset-2 col-md-10" style="" >
 													<button id="refresh_button" class="btn btn-second stepbutton2" onclick="showStepTwo()" style = "margin-left:2%" type="button"><b> Step 2</b></button>
 													<img class="" src="../images/plus.png" onclick="addStep2()">
@@ -213,7 +225,39 @@
 		
 		</div> 
 		 end of footer -->
-		<!-- <script type="text/javascript" src="/javascripts/addstep.js"></script> -->
+		  <!-- Modal -->
+		<div id="myModal2" class="modal fade " role="dialog" >
+	  		<div class="modal-dialog">
+	    		<!-- Modal content-->
+		    	<div class="modal-content" style="background:rgb(254,249,245);">
+		      		<div class="modal-header">
+		        		<button type="button" class="close" data-dismiss="modal" style="opacity: 1; background-color: rgb(0, 46, 184); color: white; border-radius: 13px; width: 29px ! important; margin-right: -28px; margin-top: -30px; border: 3px solid white;">&times;</button>
+		        		<h4 class="modal-title" style="color:#002EB8;font-weight:bolder" id="alert_title"></h4>
+		      		</div>
+		     		 <div class="modal-body" >
+		     		 	<div class="modal-body" style="background-color:#EDF1FB">
+		     		  		<div class="row">
+		     		  			<div class="col-md-offset-3 col-md-11">
+		     		  				<span style="font-size:16px;color:#47ab47;font-weight:bolder" id="model_content"></span>
+		     		  			</div>
+		     		  			
+		     				 </div>
+		     				 <div style="margin-top:1%"></div>
+		     				 <div class="row">
+		     				 	<div class="col-md-offset-10 col-md-2">
+		       			 			<button type="button" class="btn btn-assign-task" onclick="closeModel()"data-dismiss="modal">OK</button>
+		       			 		</div>
+		      				</div>
+		     				
+		     		 	</div>
+		       			
+		      		</div>
+		      		
+		    	</div>
+	
+	  		</div>
+		</div>
+		<!--End Modal -->
 		 <script type="text/javascript" src="/javascripts/taskdetail.js"></script>
 		
 	</body>

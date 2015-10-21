@@ -26,8 +26,8 @@
 	      return handleError('Sorry! Your browser doesn\'t support FormData');
 	    }
 
-	    disableSubmit();
-	    postFormAjaxStep2(onPostFormSuccess, onPostFormError, onPostFormComplete);
+	    disableSubmit2();
+	    postFormAjaxStep2(onPostFormSuccess, onPostFormError, onPostFormComplete2);
 	    printMessage('Submitted with ajax...');
 	  }
 
@@ -41,20 +41,31 @@
   function disableSubmit() {
     $submitAjax.attr('disabled', true);
     $submitAjax.text('Processing...');
-    $submitAjaxStep2.attr('disabled', true);
-    $submitAjaxStep2.text('Processing...');
+   
     $submitIframe.attr('disabled', true);
     $submitIframe.text('Processing...');
   }
+  function disableSubmit2() {
+	   
+	    $submitAjaxStep2.attr('disabled', true);
+	    $submitAjaxStep2.text('Processing...');
+	    $submitIframe.attr('disabled', true);
+	    $submitIframe.text('Processing...');
+	  }
 
   function enableSubmit() {
     $submitAjax.attr('disabled', false);
     $submitAjax.text('Submited');
-    $submitAjaxStep2.attr('disabled', false);
-    $submitAjaxStep2.text('Submited');
+    
     $submitIframe.attr('disabled', false);
     $submitIframe.text('Submit with iframe');
   }
+  function enableSubmit2() {
+	    $submitAjaxStep2.attr('disabled', false);
+	    $submitAjaxStep2.text('Submited');
+	    $submitIframe.attr('disabled', false);
+	    $submitIframe.text('Submit with iframe');
+	  }
 
   function handleSuccess(data) {
     console.log('Success:', data);
@@ -98,16 +109,22 @@
     	var data=JSON.parse(responce);
         // Check for successful (blank) response
         if (data.taskId.length >0) {
-        	alert("Task is saved!!!" +data.taskId );
+        	 $('#alert_title').text('Success');
+    		 $('#model_content').text('Task is saved successfully!!!');
+    		 $("#myModal2").modal('show');
+        	//alert("Task is saved!!!" +data.taskId );
         	$("#taskId").val(data.taskId);
         	$("#step").val(data.step);
         	//window.location.href = "/home";
 
         }
         else {
+        	$('#alert_title').text('Failure');
+   		 $('#model_content').text('Task not saved successfully!!!');
+   		 $("#myModal2").modal('show');
 
             // If something goes wrong, alert the error message that our service returned
-            alert('Error: ' + response.msg);
+            //alert('Error: ' + response.msg);
 
         }
     })
@@ -128,14 +145,19 @@
 	//var data=JSON.parse(responce);
 	        // Check for successful (blank) response
 	        if (responce.msg=="success") {
-	        	alert("step2 is saved!!!" );
+	        	$('#alert_title').text('Success');
+	    		 $('#model_content').text('Task step 2 is saved successfully!!!');
+	    		 $("#myModal2").modal('show');
+	        	//alert("step2 is saved!!!" );
 	        	$('#publish_task').css('display','block');
 
 	        }
 	        else {
-
+	        	$('#alert_title').text('Failure');
+	      		 $('#model_content').text('Step not saved successfully!!!');
+	      		 $("#myModal2").modal('show');
 	            // If something goes wrong, alert the error message that our service returned
-	            alert('Error: ' + response.msg);
+	           // alert('Error: ' + response.msg);
 
 	        }
 	    })
@@ -157,6 +179,9 @@
   function onPostFormComplete(response) {
     enableSubmit();
   }
+  function onPostFormComplete2(response) {
+	    enableSubmit2();
+	  }
 
   function onPostFormSuccess(response) {
     handleSuccess(response);

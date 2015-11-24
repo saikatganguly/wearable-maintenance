@@ -18,34 +18,43 @@ exports.login = function(req, res) {
 		if (user == null) {
 			res.send({
 				"status" : 404,
-				"message" : "User Not Found"
+				"message" : "User Not Found",
+				"authToken" : "",
+				"accessCode" : ""
 			});
 		} else {
 			user.comparePassword(password, user.key, user.password, function(isMatch) {
 				if (isMatch) {
-					var isAccessCodeProvided;
-					if(user.accesscode!=null){
-						if(user.accesscode.trim()!=""){
-							isAccessCodeProvided=true;
+					var accessCode;
+					if(user.accesscode!==null){
+						
+						if(user.accesscode!== undefined){
+							//console.log(user.accesscode);
+							//isAccessCodeProvided=true;
+							accessCode=user.accesscode.trim();
 						}
 						else{
-							isAccessCodeProvided=false;
+							//isAccessCodeProvided=false;
+							accessCode="";
 						}
 						
 					}
 					else{
-						isAccessCodeProvided=false;
+						//isAccessCodeProvided=false;
+						accessCode="";
 					}
 					res.send({
 						"status" : 200,
 						"message" : "Login Successful",
 						"authToken" : user.authToken,
-						"isAccessCodeProvided" : isAccessCodeProvided
+						"accessCode" : accessCode
 					});
 				} else {
 					res.send({
 						"status" : 401,
-						"message" : "Unauthorized"
+						"message" : "Unauthorized",
+						"authToken" : "",
+						"accessCode" : ""
 					});
 				}
 			});

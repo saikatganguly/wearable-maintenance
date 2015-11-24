@@ -26,6 +26,7 @@ module.exports = function(app) {
 
 	app.post('/login', function(req, res, next) {
 		  /* look at the 2nd parameter to the below call */
+		console.log("in login")
 		  passport.authenticate('local', function(err, user, info) {
 		    if (err) { return next(err); }
 		    if (!user) { return res.render('login' , {"message" : "Not authorized"}); }
@@ -37,6 +38,7 @@ module.exports = function(app) {
 		    	  return res.redirect('/home');  
 		      }
 		      else if(user.role==="ROLE_USER"){
+		    	  console.log("ROLE_USER")
 		    	  return res.redirect('/user/activate');
 		      }
 		      
@@ -60,5 +62,10 @@ module.exports = function(app) {
 	app.post("/task/edittask",app.get('multipartMiddleware'),taskController.editTask);
 	app.post("/task/edittaskstep",app.get('multipartMiddleware'),taskController.editTaskStep);
 	app.post("/task/assigntask",taskController.assignTask);
-	app.get("/chatwindow",appUtil.isAuthenticated, userController.getChatWindow);
-}
+	app.post("/chatwindow",appUtil.isAuthenticated, userController.getChatWindow);
+	app.get("/chattest",appUtil.isAuthenticated, userController.getChatTestWindow);
+	
+	app.get("/user/registeradmin",appUtil.isAuthenticated, userController.getRegistrationPageForAdmin);
+	app.post("/user/registeradmin",userController.addUserByAdmin);
+	app.post("/task/taskgallery",appUtil.isAuthenticated,taskController.getTaskGallery);
+};

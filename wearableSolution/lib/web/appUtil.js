@@ -3,11 +3,11 @@
  */
 
 exports.isAuthenticated=function(req, res, next){
-	console.log("=====================Request "+req);
-	console.log("checking authentication +"+req.user);
+	/*console.log("=====================Request "+req);
+	console.log("checking authentication +"+req.user);*/
 	 if (req.isAuthenticated()){
-		 	console.log("User authenticated");
-		 	console.log("User found : "+req.session.username);
+		 	console.log("User authenticated"+req.session.username);
+		 	//console.log("User found : "+req.session.username);
 		   return next();
 	 }
 	     

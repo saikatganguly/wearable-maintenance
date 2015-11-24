@@ -9,21 +9,24 @@
 	   
 	}());
 $(document).on('click', '.panel-heading span.icon_minim', function (e) {
-    var $this = $(this);
+	var $this = $(this);
     if (!$this.hasClass('panel-collapsed')) {
-    	var element = document.getElementById("messages_div");
-    	element.scrollTop = element.scrollHeight;
     	$this.parents('.panel').find('.panel-body').slideUp();
         $this.addClass('panel-collapsed');
         $this.removeClass('glyphicon-minus').addClass('glyphicon-plus');
+        var element = document.getElementById("messages_div");
+    	element.scrollTop = element.scrollHeight;
        /* clearInterval(interval);
 		$("#message_icon").css("color","black");*/
     } else {
+    	
         $this.parents('.panel').find('.panel-body').slideDown();
         $this.removeClass('panel-collapsed');
         $this.removeClass('glyphicon-plus').addClass('glyphicon-minus');
         clearInterval(interval);
 		$("#message_icon").css("color","black");
+		var element = document.getElementById("messages_div");
+    	element.scrollTop = element.scrollHeight;
     }
 });
 $(document).on('focus', '.panel-footer input.chat_input', function (e) {

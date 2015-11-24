@@ -10,6 +10,9 @@ module.exports=function(app){
 	var taskController = require("./controllers/taskController");
 	app.get("/api/user/test" , userController.testUser);
 	app.get("/api/task/gettask" , appUtil.isAuthenticated , taskController.getTask);
+	
 	app.post("/api/login" , userController.login);
 	app.post("/api/activateuser" , userController.activate);
+	
+	app.post("/api/task/changetaskstatus" , appUtil.isAuthenticated , taskController.changeTaskStatus);
 }

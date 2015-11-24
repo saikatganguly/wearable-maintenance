@@ -1,0 +1,153 @@
+<html>
+	<head>
+	<title>Registration</title>
+	<link href="/stylesheets/bootstrap.css" rel="stylesheet">
+	<link href="/stylesheets/index.css" rel="stylesheet"> 
+	<link href="/stylesheets/login.css" rel="stylesheet">
+	<link href="/stylesheets/user_registration.css" rel="stylesheet">
+	<script type="text/javascript" src="/javascripts/jquery-2.1.1.js"></script>
+	<script type="text/javascript" src="/javascripts/bootstrap.min.js"></script>
+	<script type="text/javascript" src="/javascripts/userregistration.js"></script>
+	</head>
+	<body style="background:rgb(254,249,245);">
+		<!-- start of header -->
+		<nav class="navbar " style="background:white;">
+			<div class="container">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			    <div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+				    <span class="sr-only">Toggle navigation</span>
+				    <span class="icon-bar"></span>
+				    <span class="icon-bar"></span>
+				    <span class="icon-bar"></span>
+				    </button>
+				    <div class="navbar-brand" ><img class="img-responsive"src="../images/logo.png" style="margin-top:1px;height:62px"/ >
+					</div>
+				</div>
+				
+			    <!-- Collect the nav links, forms, and other content for toggling -->
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				      
+				    <ul class="nav navbar-nav navbar-right">
+					    
+					   <li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="font-weight: bold;background-color: #53b2d8;padding-top:30px;padding-bottom:32px;color:white !important;margin-right:-12">Add User <span class="caret"></span></a>
+				          
+							<ul class="dropdown-menu" role="menu">
+								<li class="" style="border-top:none;">
+									<a href="/home" style="color:white!important;font-weight: bold;">
+										Dashboard	
+										<hr>						
+									</a>					
+								</li>
+					
+								<li class="">
+									<a href="" style="color:white!important;font-weight: bold;">
+										Task List
+										<hr>					
+									</a>					
+								</li>
+								
+								<li class="">
+									<a href="/logout" style="color:white!important;font-weight: bold;">
+										Logout
+									</a>					
+								</li>
+													
+							</ul>
+				        </li>
+					</ul>
+					   
+				</div>
+			</div><!-- /.container-fluid -->
+		</nav>
+		<!-- end of header -->
+		
+		<!-- start of container -->
+		<div >  
+			<div class="container-fluid" style="background:rgb(254,249,245);height:87%">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="container">
+							<div style="margin-left:-1%">
+								<div class="row" style="margin-top:1px;margin-bottom:5px">
+									<div class="col-md-offset-2 col-md-8">
+										<div style="margin-top:6%;margin-left:9%">
+											<span style="font-size:24px;color:#29A6CF">Registration</span>
+											<hr style="border-color:rgb(20,119,160) -moz-use-text-color -moz-use-text-color ">
+										</div>
+									</div>
+								</div>
+								<form action="/user/registeradmin"  onsubmit="return validateByAdmin()"  method="post">
+									<div class="row" style="margin-top:5%;margin-bottom:2px">
+										<div class="col-md-offset-5 col-md-3">
+											<input id="firstName" name="name" class="textlogin" type="text" placeholder="Name" tabindex="1" onfocus="removeMessage('errFirstName');" autocomplete="off"/>
+											<label style="color:red;" id="errFirstName"></label>
+										</div>
+									</div>
+									
+									<div class="row" style="margin-top:1%;margin-bottom:2px">
+										<div class="col-md-offset-5 col-md-3">
+											<input id="lastName" name="username" class="textlogin" type="text" placeholder="User Name" tabindex="2" onfocus="removeMessage('errLastName');" autocomplete="off"/>
+											<label style="color:red;" id="errLastName"></label>
+										</div>
+									</div>
+									
+									<div class="row" style="margin-top:1%;margin-bottom:2px">
+										<div class="col-md-offset-5 col-md-3">
+											<input id="emailid" name="email" class="textlogin" type="text" placeholder="Email id" tabindex="3" onfocus="removeMessage('errEmail');" autocomplete="off"/>
+											<label style="color:red;" id="errEmail"></label>
+										</div>
+										
+									</div>
+									
+									<div class="row" style="margin-top:1%;margin-bottom:2px">
+										<div class="col-md-offset-5 col-md-3">
+											<select id="role" name="role" class="input4 textlogin"  onfocus="removeMessage('errRole');">
+											<option style="color: #cccccc;font-size: 16px;opacity: 1;" value="" disabled selected hidden>Role</option>
+											<option value="ROLE_ADMIN">Admin</option>
+											<option value="ROLE_USER">User</option>
+											<select>
+											<label style="color:red;" id="errRole"></label>
+										</div>
+									</div>
+									
+									<div class="row" style="margin-top:1%;margin-bottom:2px">
+										<div class="col-md-offset-5 col-md-3">
+											<input class="textlogin" id="password" name="password" type="password" placeholder="Password" tabindex="4" onfocus="removeMessage('errPassword');" autocomplete="off"/>
+											<label style="color:red;" id="errPassword"></label>
+										</div>
+									</div>
+									
+									<div class="row" style="margin-top:1%;margin-bottom:2px">
+										<div class="col-md-offset-5 col-md-3">
+											<input class="textlogin" type="password" id="retypepassword" placeholder="Confirm Password" tabindex="5" />
+											<label style="color:red;" id="errRetypePassword"></label>
+										</div>
+									</div>
+									
+									
+									<div class="row" style="margin-top:1%;margin-bottom:5px">
+										<div class="col-md-offset-5 col-md-3">
+											<button id="submit" tabindex="6" class="btn btn-second loginbutton"  type="submit">
+										<b> Submit</b></button>
+										</div>
+									</div>
+								</form>
+							</div>
+							
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- end of container -->
+		
+		<!-- start of footer 
+		<div style="height:10%;">
+		
+		</div> 
+		 end of footer -->
+	</body>
+</html>
+

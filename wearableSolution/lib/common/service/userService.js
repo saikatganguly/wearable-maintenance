@@ -4,9 +4,6 @@
 
 var User = require('../models/user_model');
 
-exports.getUserById= function(id , callback){
-	callback(id+123 , null);
-};
 
 exports.createUser=function(name,username,email,password, callback){
 	var user1;
@@ -42,8 +39,8 @@ exports.createUser=function(name,username,email,password, callback){
     });
 };
 
-exports.activateUser=function (authToken , activationCode , callback){
-	User.findOne({ authToken: authToken }, function (err, doc){
+exports.activateUser=function (username , activationCode , callback){
+	User.findOne({ username: username }, function (err, doc){
 		  doc.accesscode = activationCode;
 		  doc.save();
 		});
@@ -59,4 +56,37 @@ exports.getUserByRole=function(callback){
 	User.find({"role": "ROLE_USER" },{}, function (err, doc){
 		  callback(doc);
 		});
+};
+
+exports.getUserByAuthToken=function(authToken,callback){
+	User.findOne({"authToken": authToken },{}, function (err, doc){
+			  callback(doc);
+		});
+};
+exports.getUserById=function(id,callback){
+	User.findOne({"_id": id },{}, function (err, doc){
+			  callback(doc);
+		});
+};
+
+exports.createUserByAdmin=function(req, callback){
+	var user1;
+	var newUser = new User({
+		  name: req.body.name,
+		  username:req.body.username,
+		  password:req.body.password ,
+		  role:req.body.role,
+		});
+	
+	
+	
+	User.register(newUser, req.body.password, function(err, user) {
+        if (err) {
+            console.log(err);
+        }
+        else{
+        	console.log("User created by Admin successfully!!!");
+        	callback(true);
+        }
+    });
 };

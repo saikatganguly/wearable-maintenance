@@ -1,5 +1,4 @@
 var Task = require('../models/task_model');
-var Step = require('../models/step_model');
 var fs = require('fs');
 var imgPath = 'D:/image1.jpg';
 exports.createTask=function(req,callback){
@@ -8,15 +7,12 @@ exports.createTask=function(req,callback){
 		  taskname:req.body.taskName,
 		  description:req.body.description,
 		  story:req.body.story,
-		  status:"publish",
+		  status:"Not published",
 		  created_at :new Date(),
 		  modified_at :new Date(),
 		  step : [ {
 				description : req.body.descriptionStep,
-				stepimage : {
-					data : fs.readFileSync(req.files.taskImage.path),
-					contentType : 'image/png',
-				},
+				stepimage : req.files.taskImage.path,
 			}, 
 			],
 		});
@@ -28,30 +24,17 @@ exports.createTask=function(req,callback){
   
 		  else{
 			  console.log('task saved successfully!');
-			  var newData={taskId:data._id,taskName:data.taskname,step:"2"};
+			  var newData={taskId:data._id,taskName:data.taskname};
 			    callback(JSON.stringify(newData));
 	        	
-	        };
+	        }
 		});
 	
 	
 };
 exports.createTaskStep=function(req,callback){
 	
-	var step2={description : req.body.descriptionStep2,
-			stepimage : {
-				data : fs.readFileSync(req.files.taskImage2.path),
-				contentType : 'image/png',
-			},};
-	/*Task.findByIdAndUpdate(req.body.taskId,
-			         {$push: { step: step2 }},{upsert:true}, function(err, data) { 
-			        	 if (err) {
-			   			  console.log('err '+err);
-			   		  }
-			     
-			   		  else{
-			        	 console.log("step save successfully");}
-			});*/
+	
 		 Task.findOne({_id:req.body.taskId}, function(err, result){
 		    if ( err ) {console.log('err '+err);}
 
@@ -59,10 +42,7 @@ exports.createTaskStep=function(req,callback){
 		    	console.log('err '+err);
 		    }
 		    var step2={description : req.body.descriptionStep2,
-					stepimage : {
-						data : fs.readFileSync(req.files.taskImage2.path),
-						contentType : 'image/png',
-					},};
+					stepimage : req.files.taskImage2.path};
 		   
 		    result.step.push(step2);
 		   
@@ -91,7 +71,7 @@ exports.getTaskList=function(callback){
 
 exports.getPublishedTaskList=function(callback){
 	
-	Task.find({"status":"published"},{},function(e,data){
+	Task.find({"status":"Published"},{},function(e,data){
 		 callback(data);
     });
 	
@@ -104,19 +84,8 @@ exports.getTaskDetailById=function(taskId,callback){
 		    if(!result){
 		    	console.log('err '+err);
 		    }
-		   var taskData={
-				   _id:result._id,
-				   taskname:result.taskname,
-					  description:result.description,
-					  status:result.status,
-					  story:result.story,
-					  descriptionStep:result.step[0].description,
-					  descriptionStep2:result.step[1].description,					 
-					  
-				   
-		   };
-		   // console.log(JSON.stringify(result));
-		    callback(taskData);
+		    //console.log(JSON.stringify(result));
+		    callback(result);
 		  
 		  });
 	
@@ -132,8 +101,8 @@ exports.getStepImageById=function(taskId,callback){
 		    }
 		   
 			var taskData={
-					   stepImage1:result.step[0].stepimage.data.toString('base64'),
-					   stepImage2:result.step[1].stepimage.data.toString('base64')
+					   stepImage1:result.step[0].stepimage,
+					   stepImage2:result.step[1].stepimage
 					   
 			};
 		    callback(taskData);
@@ -152,7 +121,7 @@ exports.publishTaskById=function(taskId,callback){
 		    	console.log('err '+err);
 		    }
 		   
-		    result.status="published";
+		    result.status="Published";
 	    	result.save(function(err, result){
 		    	if (err) { console.log('err '+err);}
 			    else{
@@ -178,8 +147,8 @@ exports.editTaskById=function(req,callback){
 		    result.modified_at =new Date();
 		    result.step[0].description=req.body.descriptionStep;
 		   // console.log(req.files.length);
-		    if(JSON.stringify(req.files) != '{}'){
-		    	result.step[0].stepimage.data=fs.readFileSync(req.files.taskImage.path);
+		    if(req.files.taskImage.size !== 0){
+		    	result.step[0].stepimage=req.files.taskImage.path;
 		    }
 				 /* step : [ {
 						description : req.body.descriptionStep,
@@ -210,10 +179,10 @@ exports.editTaskStepById=function(req,callback){
 		    }
 		    
 		    result.modified_at =new Date();
-		    result.step[1].description=req.body.descriptionStep2;
+		    result.step[req.body.step-1].description=req.body.descriptionStep2;
 		   // console.log(req.files.length);
-		    if(JSON.stringify(req.files) != '{}'){
-		    	result.step[1].stepimage.data=fs.readFileSync(req.files.taskImage2.path);
+		    if(req.files.taskImage2.size !== 0){
+		    	result.step[req.body.step-1].stepimage=req.files.taskImage2.path;
 		    }
 				
 	    	result.save(function(err, result){
@@ -234,7 +203,7 @@ exports.assignTaskByTaskId=function(req,callback){
 		    if(!result){
 		    	console.log('err '+err);
 		    }
-		    result.status="assigned";
+		    result.status="Assigned";
 		    result.assigne=req.body.userId;
 	    	result.save(function(err, result){
 		    	if (err) { console.log('err '+err);}
@@ -243,5 +212,34 @@ exports.assignTaskByTaskId=function(req,callback){
 			    callback(result._id);}
 		    });
 		  });
+	
+};
+exports.getTaskListByUserId=function(id,callback){
+	
+	Task.find({assigne:id},{},function(e,data){
+		 callback(data);
+    });
+	
+	
+};
+
+exports.changeStatusByTaskId=function(req,callback){
+	
+	Task.findOne({_id:req.taskid},{},function(err,data){
+		if ( err ) {console.log('err '+err);}
+	    
+	    if(!data){
+	    	console.log('err '+err);
+	    }
+	    data.status=req.status;
+	    data.modified_at =new Date();
+	    data.save(function(err, result){
+	    	if (err) { console.log('err '+err);}
+		    else{
+		    
+		    callback(result._id);}
+	    });
+    });
+	
 	
 };

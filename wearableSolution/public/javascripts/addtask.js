@@ -1,13 +1,10 @@
 (function() {
-	
-	
+
 	$("#publishButton_id").on('click',publishData);
-	
-	
 	
 }());
 
-
+var status="notSaved";
 function validate(){
     var taskname = $("#taskname").val();
 	var description = $("#description").val();
@@ -66,12 +63,12 @@ function validate(){
 	    };
 	    reader.readAsDataURL(input.files[0]);
 	}
- function readURL2(event) {
+ function readURL2(event,step) {
 	    var input = event.target;
 	    
 	    var reader = new FileReader();
 	    reader.onload = function(){
-	    	$('#upload2').css('background-image','url('+reader.result+')');
+	    	$('#upload'+step).css('background-image','url('+reader.result+')');
 	 
 	    	dataURL = reader.result;
 	    };
@@ -91,65 +88,77 @@ function validate(){
 	    
 }
  
- /*function addTask(task){
-	 
-	 alert("add task"+JSON.stringify(task));
-	 $.ajax({
-         type: 'POST',
-         data: task,
-         url: '/task/addtask',
-         dataType: 'JSON'
-     }).done(function( response ) {
-
-         // Check for successful (blank) response
-         if (response._id != '') {
-           
-        	 alert(response._id);
-         }
-         else {
-
-             // If something goes wrong, alert the error message that our service returned
-             alert('Error: ' + response.msg);
-
-         }
-     });
-	 
- }*/
- function saveStep(){
-	 
- }
+ 
+ 
 function addStep(){
-	if($('#step').val()==="1"){
+	
+	if($("#status").val() ==="notSaved"){
 		$('#alert_title').text('Alert Message');
-		 $('#model_content').text('Save step 1 before proceed');
+		 $('#model_content').text('Save step before proceed');
 		 $("#myModal2").modal('show');
 	}
 	else{
+		var htmlStringStepButton="<div class=\"row\" id=\"step"+$('#step').val()+"\" style=\"\" >"+
+		"<div class=\"col-md-offset-2 col-md-10\" >"+
+		"<button id=\"stepbutton_"+$('#step').val()+"\" class=\"btn btn-second stepbutton2\" onclick=\"showStep('"+$('#step').val()+"')\" style = \"margin-left:2%\" type=\"button\"><b> Step "+$('#step').val()+"</b></button>"+
+		"<img id=\"plus"+$('#step').val()+"\" src=\"../images/plus.png\" onclick=\"addStep()\">"+
+		"</div></div>";
+		
+		$('#step_div').append(htmlStringStepButton);
+		$('#status').val("notSaved");
+		
+		var htmlStringStepContent="<div class=\"col-md-9\" id=\"step_content_"+$('#step').val()+"\" style=\"display:none\" >"+
+		"<form action=\"\" class=\"js-form-step-"+$('#step').val()+"\"  onsubmit=\"return validate()\"  method=\"post\" enctype=\"multipart/form-data\">"+
+		"<input type=\"hidden\" class=\"taskId\" name=\"taskId\"  value=''>"+
+		"<input type=\"hidden\" name=\"taskName\"  value=''>"+
+			"<div class=\"row\">"+
+				"<div class=\"col-md-9\" >"+
+						"<div class=\"upload-image\">"+
+						"<div id=\"uploadDiv\" class=\"toolbarItemBox\" title=\"Upload Image\" style=\"overflow: hidden; position: relative;\">"+
+							"<div class=\"upload\" id=\"upload"+$('#step').val()+"\" class=\"toolbarItemIcon\" ></div>"+
+							"<input class=\"fileToUpload\" id=\"taskImage"+$('#step').val()+"\" type=\"file\" accept=\"image/jpg,image/jpeg,image/png,image/gif,image/bmp,image/tiff\" style=\"\" name=\"taskImage2\" onchange=\"readURL2(event,'"+$('#step').val()+"');\" onfocus=\"removeMessage('errStepImage_"+$('#step').val()+"');\">"+
+						"</div>"+
+						"<label style=\"color:red;\" id=\"errStepImage_"+$('#step').val()+"\"></label>"+
+					"</div>"+
+				"</div>"+
+			"</div>"+
+			"<div class=\"row\" style=\"margin-top:2%\">"+
+				"<div class=\"col-md-9\" >"+
+					"<textarea id=\"descriptionStep"+$('#step').val()+"\" name=\"descriptionStep2\" class=\"descriptionText\" type=\"text\" placeholder=\"Step Description\" tabindex=\"4\" onfocus=\"removeMessage('errDescriptionStep_"+$('#step').val()+"');\" autocomplete=\"off\" style=\"resize: none;\"></textarea>"+
+					"<label style=\"color:red;\" id=\"errDescriptionStep_"+$('#step').val()+"\"></label>"+
+				"</div>"+
+			"</div>"+
+			"<div class=\"row\" style=\"margin-top:1%;margin-bottom:5px\">"+
+		    	"<div class=\"col-md-offset-7 col-md-2\">"+
+					"<button id=\"submit\" class=\"btn btn-second tasksubmit js-submit-ajax-step-"+$('#step').val()+"\" onclick=\"ajaxSubmit("+$('#step').val()+")\" type=\"button\">"+
+					"<b> Submit</b></button>"+
+				"</div>"+
+			"</div>"+
+			"</form>"+
+		"</div>";
+		
+		$('#step_content').append(htmlStringStepContent);
 		$('#step2').css('display','block');
-		$('#plus1').css('display','none');
-		/*$('#step1_content').css('display','none');
-		$('#step2_content').css('display','block');*/
-	}
+		var previousStepNumber=parseInt($('#step').val())-1;
+		$('#plus'+previousStepNumber).css('display','none');
+		
+		}
 	
  }
 
 function validateStep(){
 	return true
 }
-function showStepTwo(){
-	$('#step1_content').css('display','none');
-	$('#step2_content').css('display','block');
-	$('.stepbutton2').css('background-color','#47AB47');
-	$('.stepbutton2').css('font-weight','bolder');
-	$('.stepbutton').css('background-color','#FF3300');
+
+function showStep(stepNum){
+	
+	$('*[id*="step_content_"]').css('display','none');
+	$('#step_content_'+stepNum).css('display','block');
+	$('*[id*="stepbutton_"]').css('background-color','#FF3300');
+	$('#stepbutton_'+stepNum).css('background-color','#47AB47');
+	
 }
-function showStepOne(){
-	$('#step2_content').css('display','none');
-	$('#step1_content').css('display','block');
-	$('.stepbutton').css('background-color','#47AB47');
-	$('.stepbutton').css('font-weight','bolder');
-	$('.stepbutton2').css('background-color','#FF3300');
-}
+
 function publishData(){
 	
 	$.ajax({

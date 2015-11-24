@@ -33,7 +33,7 @@ var taskSchema = new Schema({
 	assigne: String,
 	status:String,
 	story:String,
-	step:[{stepimage: { data: Buffer, contentType: String },
+	step:[{stepimage:String,
 	  	description:String} ]
 });
 

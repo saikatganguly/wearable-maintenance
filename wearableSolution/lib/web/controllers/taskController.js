@@ -1,9 +1,8 @@
 var express=require('express');
 var taskService=require('../../common/service/taskService');
+var userService=require('../../common/service/userService');
 //var multiparty = require('multiparty');
-var _ = require('lodash');
 var fs=require('fs');
-
 exports.getTaskPage=function(req , res){
 	res.render("add_task",{step:"1",session: req.session,});
 };
@@ -11,22 +10,25 @@ exports.getTaskPage=function(req , res){
 exports.addTask= function(req , res){
 	
 	console.log("reached task controller ");
+	var oldImageName=req.files.taskImage.path.substring(req.files.taskImage.path.lastIndexOf("\\")+1);
+	var imageName=req.body.taskName+new Date().getTime()+oldImageName.substring(oldImageName.indexOf("."));
+	var imagePath=req.files.taskImage.path.substring(0,req.files.taskImage.path.lastIndexOf("\\"))+"\\"+imageName.replace( /\s/g, "");
+	fs.renameSync(req.files.taskImage.path,imagePath);
+	req.files.taskImage.path=imageName.replace( /\s/g, "");
 	taskService.createTask(req,function(data , err){
-		fs.unlink(req.files.taskImage.path);
 		res.send(data);
-		/*if(data.length>0){
-			var task=JSON.parse(data);
-			res.render("add_steps", {session: req.session,"taskId":task._id,"taskname":task.taskname,"stepNumber":"1",});
-		}	*/
-		
+				
 	});
 };
 
 exports.addTaskStep= function(req , res){
-	console.log("reached add task step controller ");
-	taskService.createTaskStep(req,function(data , err){
-		 console.log("after callback ");
-		 fs.unlink(req.files.taskImage2.path);
+	var oldImageName=req.files.taskImage2.path.substring(req.files.taskImage2.path.lastIndexOf("\\")+1);
+	var imageName=req.body.taskName+new Date().getTime()+oldImageName.substring(oldImageName.indexOf("."));
+	var imagePath=req.files.taskImage2.path.substring(0,req.files.taskImage2.path.lastIndexOf("\\"))+"\\"+imageName.replace( /\s/g, "");
+	fs.renameSync(req.files.taskImage2.path,imagePath);
+	req.files.taskImage2.path=imageName.replace( /\s/g, "");
+	 	taskService.createTaskStep(req,function(data , err){
+		 //fs.unlink(req.files.taskImage2.path);
 		 res.send({msg:"success"});
 		});
 	
@@ -59,30 +61,86 @@ exports.publishTask= function(req , res){
 };
 exports.editTask= function(req , res){
 	
+	if(req.files.taskImage.size !== 0){
+		if(fs.existsSync(req.files.taskImage.path.substring(0,req.files.taskImage.path.lastIndexOf("\\"))+"\\"+req.body.oldImage)){
+			fs.unlink(req.files.taskImage.path.substring(0,req.files.taskImage.path.lastIndexOf("\\"))+"\\"+req.body.oldImage);
+		}
+		//fs.unlink(req.files.taskImage.path.substring(0,req.files.taskImage.path.lastIndexOf("\\"))+"\\"+req.body.oldImage);
+		var oldImageName=req.files.taskImage.path.substring(req.files.taskImage.path.lastIndexOf("\\")+1);
+		var imageName=req.body.taskName+new Date().getTime()+oldImageName.substring(oldImageName.indexOf("."));
+		var imagePath=req.files.taskImage.path.substring(0,req.files.taskImage.path.lastIndexOf("\\"))+"\\"+imageName.replace( /\s/g, "");
+		fs.renameSync(req.files.taskImage.path,imagePath);
+		req.files.taskImage.path=imageName.replace( /\s/g, "");
+		}
+	
+	
+	
 	taskService.editTaskById(req,function(data , err){
-		if(JSON.stringify(req.files) != '{}'){
-			fs.unlink(req.files.taskImage.path);}
+		
 		res.send({msg:"success"});
 		 
 	});
 	 
 };
 exports.editTaskStep= function(req , res){
-	
+	//var imagePath=path.join(__dirname, './public/stepimage/');
+	try{
+	if(req.files.taskImage2.size !== 0){
+		if(fs.existsSync(req.files.taskImage2.path.substring(0,req.files.taskImage2.path.lastIndexOf("\\"))+"\\"+req.body.oldImage)){
+			fs.unlink(req.files.taskImage2.path.substring(0,req.files.taskImage2.path.lastIndexOf("\\"))+"\\"+req.body.oldImage);
+		}
+		
+		//fs.unlink(req.files.taskImage2.path.substring(0,req.files.taskImage2.path.lastIndexOf("\\"))+"\\"+req.body.oldImage);
+		var oldImageName=req.files.taskImage2.path.substring(req.files.taskImage2.path.lastIndexOf("\\")+1);
+		var imageName=req.body.taskName+new Date().getTime()+oldImageName.substring(oldImageName.indexOf("."));
+		var imagePath=req.files.taskImage2.path.substring(0,req.files.taskImage2.path.lastIndexOf("\\"))+"\\"+imageName.replace( /\s/g, "");
+		fs.renameSync(req.files.taskImage2.path,imagePath);
+		req.files.taskImage2.path=imageName.replace( /\s/g, "");
+		}
+
 	taskService.editTaskStepById(req,function(data , err){
-		if(JSON.stringify(req.files) != '{}'){
-		fs.unlink(req.files.taskImage2.path);}
+		
 		res.send({msg:"success"});
 		 
 	});
+	}catch (e) {
+		console.log(e.toString());
+	}
+	
 	 
 };
 exports.assignTask= function(req , res){
+	var tasklist="";
 	
-	//res.send({msg:"success"});
 	 taskService.assignTaskByTaskId(req,function(data , err){
+	
 		 res.send({msg:"success"});
 		 
 	});
+	
+};
+exports.getTaskGallery= function(req , res){
+	 
+	 var filesName={};
+	 var fileData=[];
+	 if(fs.existsSync("../public/taskimage/"+req.body.taskId)){
+		 fs.readdirSync("../public/taskimage/"+req.body.taskId).forEach(
+					function(name) {
+						fileData.push({
+							"name":name,
+						});
+						
+					});
+			 filesName.file=fileData;
+			 //console.log("in task gallery file json "+JSON.stringify(filesName));
+			 res.render("gallery",{session: req.session,fileData:filesName,taskId:req.body.taskId});
+	 }
+	 else{
+		 res.render("gallery",{session: req.session,fileData:"",taskId:req.body.taskId});
+	 }
+	 
+	 
+		
+	
 	
 };

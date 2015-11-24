@@ -13,7 +13,7 @@ exports.getRegistrationPage=function(req , res){
 };
 
 exports.getActivationPage=function(req , res){
-	res.render("user_activation" , {"username" : "sg123"});
+	res.render("user_activation" , {"username" : req.session.username});
 };
 
 exports.getUser= function(req , res){
@@ -68,35 +68,54 @@ exports.unauthorized=function(req , res){
 exports.getMeHome=function(req , res){
 	var tasklist="";
 	var publishedTaskList="";
+	var userlist="";
+	userService.getUserByRole(function(data,err){
+		if(data.length>0){
+			userlist=data;
+		}
+	});
 	taskService.getTaskList(function(data,err){
 		if(data.length>0){
-			tasklist=data;	
-			taskService.getPublishedTaskList(function(data,err){
-				if(data.length>0){
-					publishedTaskList=data;	
-					userService.getUserByRole(function(data,err){
-						if(data.length>0){
-							
-							res.render("dashboard", {session: req.session,"taskname":"",tasklist:tasklist,publishtasklist:publishedTaskList,userlist:data});
-						}
+			tasklist=data;
+			var i=0;
+			(function loop() {
+			    if (i < tasklist.length) {
+			          	if(tasklist[i].assigne !== undefined){
+						userService.getUserById(tasklist[i].assigne,function(result,err){
+							tasklist[i].username=result.username;
+							tasklist[i].authToken=result.authToken;
+							i++;
+					        loop();
+							});}
 						else{
-							res.render("dashboard", {session: req.session,"taskname":"",tasklist:tasklist,publishtasklist:publishedTaskList,userlist:""});
+							tasklist[i].username="Not Assigned";
+							tasklist[i].authToken="";
+							 i++;
+					         loop();
+						}
+			    }
+			    else{
+			    	
+			    	taskService.getPublishedTaskList(function(data,err){
+						if(data.length>0){
+							publishedTaskList=data;	
+							res.render("dashboard", {session: req.session,"taskname":"",tasklist:tasklist,publishtasklist:publishedTaskList,userlist:userlist});
+					}
+						else{
+							res.render("dashboard", {session: req.session,"taskname":"",tasklist:tasklist,publishtasklist:"",userlist:userlist});
 						}
 						
 					});
-					
-				}
-				else{
-					res.render("dashboard", {session: req.session,"taskname":"",tasklist:tasklist,publishtasklist:"",userlist:""});
-				}
+			    }
+			}());
 				
-			});
+			
 			
 			
 			
 		}
 		else{
-			res.render("dashboard", {session: req.session,"taskname":"",tasklist:"",publishtasklist:"",userlist:""});
+			res.render("dashboard", {session: req.session,"taskname":"",tasklist:"",publishtasklist:"",userlist:userlist});
 			
 		}
 	});
@@ -104,5 +123,33 @@ exports.getMeHome=function(req , res){
 };
 
 exports.getChatWindow=function(req , res){
-	res.render("chat",{session: req.session});
+	console.log("authToken "+req.body.authToken);
+	console.log("taskId "+req.body.taskId);
+	var taskData={};
+	taskService.getTaskDetailById(req.body.taskId,function(data , err){
+			taskData=data;
+			res.render("chat",{session: req.session,"authToken":req.body.authToken,task:taskData});
+				
+		});
+	
 };
+exports.getChatTestWindow=function(req , res){
+	res.render("chattest",{session: req.session});
+	
+};
+
+exports.getRegistrationPageForAdmin=function(req , res){
+	res.render("user_registration_admin");
+};
+
+exports.addUserByAdmin= function(req , res){
+	console.log("reached controller");
+	userService.createUserByAdmin(req,function(data , err){
+		console.log(data +"=======================");
+		res.redirect("/home");
+	});
+	
+	//res.render("user_registration");
+	
+};
+

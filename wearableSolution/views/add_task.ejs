@@ -49,6 +49,13 @@
 										<hr>						
 									</a>					
 								</li>
+								<li class="" style="border-top:none;">
+									<a href="/user/registeradmin" style="color:white!important;font-weight: bold;">
+										Add User	
+										<hr>						
+									</a>					
+								</li>
+								
 											
 								<li class="">
 									<a href="/chatwindow" style="color:white!important;font-weight: bold;">
@@ -86,7 +93,9 @@
 								</div>
 								 <form action="" class="js-form"  onsubmit="return validate()"  method="post" enctype="multipart/form-data"> 
 								 <input type="hidden" name="step" id="step" value='<%= step %>'>
-								 
+								  <input type="hidden" name="status" id="status" value='notSaved'>
+								  <input type="hidden" name="taskId" id="taskId" value=''>
+									<input type="hidden" name="taskName" id="task_name" value=''>
 									<div class="row" style="margin-top:1%;margin-bottom:2px">
 										<div class="col-md-3">
 											<input id="taskName" name="taskName" class="textlogin" type="text" placeholder="Task Name" tabindex="4" onfocus="removeMessage('errTaskName');" autocomplete="off"/>
@@ -113,85 +122,59 @@
 									
 									<div class="row" style="margin-top:1%;margin-bottom:2px">
 										<div class="col-md-3" >
-											<div style="width:100%;border-right:1px solid #C6C6AA;height:60%">	
+											<div style="width:100%;border-right:1px solid #C6C6AA;height:60%" id="step_div">	
 												<div class="row" >
 													<div class="col-md-offset-2 col-md-10" style="" >
-													<button id="refresh_button" class="btn btn-second stepbutton" onclick="showStepOne()" style = "margin-left:2%" type="button"><b> Step 1</b></button>
+													<button id="stepbutton_1" class="btn btn-second stepbutton" onclick="showStep(1)" style = "margin-left:2%" type="button"><b> Step 1</b></button>
 													<img class="" id="plus1" src="../images/plus.png" onclick="addStep()">
 													</div>
 													
 												</div>
-												<div class="row" id="step2" style="display:none" >
-													<div class="col-md-offset-2 col-md-10" style="" >
-													<button id="refresh_button" class="btn btn-second stepbutton2" onclick="showStepTwo()" style = "margin-left:2%" type="button"><b> Step 2</b></button>
-													<img class="" src="../images/plus.png" onclick="addStep2()">
-													</div>
-													
-												</div>
+												
 											
 											
 											</div>
 										</div>
-										<div class="col-md-9"  id="step1_content" >
+										
+										<div class="col-md-9"  id="step_content_1" >
 											<div class="row">
 												<div class="col-md-9" >
 												<!-- <img class="img-responsive" src="images/select_image2.png"> -->
 													<div class="upload-image">
 														<div id="uploadDiv" class="toolbarItemBox" title="Upload Image" style="overflow: hidden; position: relative;">
 															<div class="upload" id="upload" class="toolbarItemIcon" ></div>
-															<input class="fileToUpload" id="taskImage" type="file" accept="image/jpg,image/jpeg,image/png,image/gif,image/bmp,image/tiff" style="" name="taskImage" onchange="readURL(event);">
+															<input class="fileToUpload" id="taskImage" type="file" accept="image/jpg,image/jpeg,image/png,image/gif,image/bmp,image/tiff" style="" name="taskImage" onchange="readURL(event);" onfocus="removeMessage('errStepImage_1');">
 														</div>
+														<label style="color:red;" id="errStepImage_1"></label>
 													</div>
+													
 												</div>
+												
 											</div>
+											
 											<div class="row" style="margin-top:2%">
+											
 												<div class="col-md-9" >
-													<textarea id="descriptionStep" name="descriptionStep" class="descriptionText" type="text" placeholder="Step Description" tabindex="4" onfocus="removeMessage('errUserLastName');" autocomplete="off" style="resize: none;"></textarea>
-													<label style="color:red;" id="errUserLastName"></label>
+													<textarea id="descriptionStep" name="descriptionStep" class="descriptionText" type="text" placeholder="Step Description" tabindex="4" onfocus="removeMessage('errDescriptionStep_1');" autocomplete="off" style="resize: none;"></textarea>
+													<label style="color:red;" id="errDescriptionStep_1"></label>
 												</div>
 											</div>
 											<div class="row" style="margin-top:1%;margin-bottom:5px">
 										    	<div class="col-md-offset-7 col-md-2">
-													<button id="submit" class="btn btn-second tasksubmit js-submit-ajax""  type="submit">
+													<button id="submit" class="btn btn-second tasksubmit js-submit-ajax" onclick=" postFormAjax()" type="button">
 													<b> Submit</b></button>
 												</div>
 											</div>
 										</div>
 										 </form>
-										<div class="col-md-9" id="step2_content" style="display:none" >
-										<form action="" class="js-form-step-2"  onsubmit="return validate()"  method="post" enctype="multipart/form-data">
-										<input type="hidden" name="taskId" id="taskId" value=''>
-											<div class="row">
-												<div class="col-md-9" >
-												<!-- <img class="img-responsive" src="images/select_image2.png"> -->
-													<div class="upload-image">
-														<div id="uploadDiv" class="toolbarItemBox" title="Upload Image" style="overflow: hidden; position: relative;">
-															<div class="upload" id="upload2" class="toolbarItemIcon" ></div>
-															<input class="fileToUpload" id="taskImage2" type="file" accept="image/jpg,image/jpeg,image/png,image/gif,image/bmp,image/tiff" style="" name="taskImage2" onchange="readURL2(event);">
-														</div>
-													</div>
-												</div>
-											</div>
-											<div class="row" style="margin-top:2%">
-												<div class="col-md-9" >
-													<textarea id="descriptionStep2" name="descriptionStep2" class="descriptionText" type="text" placeholder="Step Description" tabindex="4" onfocus="removeMessage('errUserLastName');" autocomplete="off" style="resize: none;"></textarea>
-													<label style="color:red;" id="errUserLastName"></label>
-												</div>
-											</div>
-											<div class="row" style="margin-top:1%;margin-bottom:5px">
-										    	<div class="col-md-offset-7 col-md-2">
-													<button id="submit" class="btn btn-second tasksubmit js-submit-ajax-step-2"  type="submit">
-													<b> Submit</b></button>
-												</div>
-											</div>
-											</form>
-										</div>
+										 <div id="step_content"></div>
+										
 									</div>
 									
 									
 									
 									
-								 </form>
+								
 							</div>
 							
 						</div>

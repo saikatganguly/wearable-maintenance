@@ -45,8 +45,8 @@
 				          
 							<ul class="dropdown-menu" role="menu">
 								<li class="" style="border-top:none;">
-									<a href="" style="color:white!important;font-weight: bold;">
-										Schedular	
+									<a href="/user/registeradmin" style="color:white!important;font-weight: bold;">
+										Add User	
 										<hr>						
 									</a>					
 								</li>
@@ -58,7 +58,7 @@
 									</a>					
 								</li>
 								<li class="">
-									<a href="/chatwindow" style="color:white!important;font-weight: bold;">
+									<a href="/chattest" style="color:white!important;font-weight: bold;">
 										Chat Window	<hr>			
 									</a>					
 								</li>
@@ -120,7 +120,7 @@
 							
 							<div class="row" style="margin-top:1px;margin-bottom:5px">
 								<% if(tasklist.length>0){%>
-									<table class="table table-striped">
+									<table class="table table-striped" id="task_table">
 										<thead style="background:#007ACC">
 											<tr>
 												<th>TASK</th>
@@ -137,10 +137,15 @@
 											<% for(var i=0;i < tasklist.length; i++) {%>
 												<tr>
 													<td onclick="showTaskDetails('<%= tasklist[i]._id%>')" class="task_detail"><%= tasklist[i].taskname %></td>
-													<td><%= tasklist[i].taskname %></td>
-													<td><%= tasklist[i].description %></td>
-													<td><%= tasklist[i].taskname %></td>
-													<td style="color:#47ab47">Running</td>
+													<td><div style="width:150px;" class="iffyTip"><%= tasklist[i].story %></div></td>
+													<td><div style="width:150px;" class="iffyTip"><%= tasklist[i].description %></div></td>
+													<td><div style="width:100px;"><%= tasklist[i].username %></div></td>
+													<%if(tasklist[i].status=="Running" || tasklist[i].status=="Finished"){%>
+													<td onclick="getActiveUser('<%= tasklist[i].authToken %>','<%= tasklist[i]._id%>')"style="color:#47ab47 !important;text-decoration: none;text-transform: capitalize;"><%= tasklist[i].status %></td>
+													<%}%>
+													<%if(tasklist[i].status=="Not published" || tasklist[i].status=="Assigned" || tasklist[i].status=="Published"){%>
+													<td style="color:#ff3333 !important;text-decoration: none;text-transform: capitalize;"><%= tasklist[i].status %></td>
+													<%}%>
 													<td><%= tasklist[i].taskname %></td>
 													<td><%= tasklist[i].taskname %></td>
 													<td><%= tasklist[i].taskname %></td>
@@ -163,7 +168,7 @@
 		
 		</div> 
 		<!-- end of footer -->
-		<form id="task_detail_form" method="post" action="/task/taskdetail">
+		<form id="task_detail_form" method="post" action="/task/taskdetail" >
 		<input type="hidden" name="taskId" id="detail_task_id">
 		</form>
 		
@@ -183,10 +188,13 @@
 		     		  				<span>Task</span>
 		     		  			</div>
 		     		  			<div class="col-md-5">
-		     		   				<select id="taskList_select" name="task" class="input3">
-		     		   				<% for(var i=0;i < publishtasklist.length; i++) {%>
+		     		  				<select id="taskList_select" name="task" class="input3">
+		     		   				<% if(publishtasklist.length>0){
+		     		   				for(var i=0;i < publishtasklist.length; i++) {%>
 		     		  					<option value="<%= publishtasklist[i]._id %>"><%= publishtasklist[i].taskname %></option>
-		     		  				<% } %>
+		     		  				<% }}else{ %>
+		     		  				<option value="0">No Task</option>
+		     		  				<%}%>
 		     		 				</select>
 		     		 			</div>
 		     				 </div>
@@ -197,9 +205,12 @@
 		     		  			</div>
 		     		  			<div class="col-md-5">
 		     		   				<select id="userList_select" name="user" class="input3">
-		     		  					<% for(var i=0;i < userlist.length; i++) {%>
+		     		  					<% if(userlist.length>0){
+		     		  					for(var i=0;i < userlist.length; i++) {%>
 		     		  					<option value="<%= userlist[i]._id %>"><%= userlist[i].username %></option>
-		     		  				<% } %>
+		     		  				<% }}else{ %>
+		     		  				<option value="0">No User</option>
+		     		  				<%}%>
 		     		  				</select>
 		     		 			</div>
 		     				 </div>
@@ -255,5 +266,10 @@
 		
 		<script type="text/javascript" src="/javascripts/dashboard.js"></script>
 	</body>
+	<form class="hidden-form" id="get-running-task" method="post" action="/chatwindow" target="_blank" >
+		<input type="hidden" id="authToken" name="authToken" value="">
+		<input type="hidden" id="taskId" name="taskId" value="">
+	</form>
+	
 </html>
 

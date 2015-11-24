@@ -1,21 +1,293 @@
-<link rel='stylesheet' href='/stylesheets/chat.css' type='text/css'/>
-<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
-<script type="text/javascript" src="/javascripts/jquery-2.1.1.js"></script>
-<script type="text/javascript">
-var name = '<%= session.passport.user %>';
-</script>
-<script type="text/javascript" src="/javascripts/chat.js"></script>
- 
+
 <html>
 	<head>
-		<title>
-			Chat Window
-		</title>
+	<title>Active User</title>
+
+	<link rel='stylesheet' href='/stylesheets/chat.css' type='text/css'/>
+	<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+	<script type="text/javascript" src="/javascripts/jquery-2.1.1.js"></script>
+	<script type="text/javascript">
+	var authToken = '<%= authToken %>';
+	var taskid = '<%= task._id%>';
+	</script>
+	
+	<link href="/stylesheets/bootstrap.css" rel="stylesheet">
+ 	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<link href="/stylesheets/index.css" rel="stylesheet">  
+	<link href="/stylesheets/addtask.css" rel="stylesheet">
+	<link href="/stylesheets/chatbox.css" rel="stylesheet">
+	
+	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	
 	</head>
-	<body>
-		<h3>Chat Window</h3>
-		<div>
-		<ul id="messages"></ul>
+	<body style="background:rgb(254,249,245);">
+			<!-- start of header -->
+		<nav class="navbar " style="background:white;">
+			<div class="container">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			    <div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+				    <span class="sr-only">Toggle navigation</span>
+				    <span class="icon-bar"></span>
+				    <span class="icon-bar"></span>
+				    <span class="icon-bar"></span>
+				    </button>
+				    <div class="navbar-brand" ><img class="img-responsive"src="../images/logo.png" style="margin-top:1px;height:62px"/ >
+					</div>
+				</div>
+				
+			    <!-- Collect the nav links, forms, and other content for toggling -->
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				      
+				    <ul class="nav navbar-nav navbar-right">
+					    <li class="login-menu">
+							<div class="row" style="margin-right:1px;" >
+								WELCOME
+							</div>
+							<div class="row" style="margin-right:1px">
+								<b><%= session.passport.user %>!</b>
+							</div>
+							<div class="row" style="margin-right:1px">
+								kochi mobility demo 
+							</div>		
+						<li>
+					   <li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="font-weight: bold;background-color: #53b2d8;padding-top:30px;padding-bottom:32px;color:white !important;margin-right:-12">Active Window <span class="caret"></span></a>
+				          
+							<ul class="dropdown-menu" role="menu">
+								<li class="" style="border-top:none;">
+									<a href="/home" style="color:white!important;font-weight: bold;">
+										Dashboard	
+										<hr>						
+									</a>					
+								</li>
+									<li class="" style="border-top:none;">
+									<a href="/user/registeradmin" style="color:white!important;font-weight: bold;">
+										Add User	
+										<hr>						
+									</a>					
+								</li>
+															
+								<li class="">
+									<a href="/logout" style="color:white!important;font-weight: bold;">
+										Logout
+									</a>					
+								</li>
+							</ul>
+				        </li>
+					</ul>
+					   
+				</div>
+			</div><!-- /.container-fluid -->
+		</nav>
+		<!-- end of header -->
+		
+		<!-- start of container -->
+		<div >  
+			<div class="container-fluid" style="background:rgb(254,249,245);height:87%">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="container">
+							<div style="">
+								<div class="row" style="margin-top:1px;margin-bottom:5px">
+									<div class="col-md-12">
+										<div style="margin-top:1%;">
+											<span style="font-size:20px;color:#29A6CF">Active Task</span>
+											<hr style="border-color:rgb(20,119,160) -moz-use-text-color -moz-use-text-color ">
+										</div>
+									</div>
+								</div>
+								<!-- <form action="/user/register"  onsubmit="return validate()"  method="post"> -->
+									
+									
+									<div class="row" style="margin-top:1%;margin-bottom:2px">
+										<div class="col-md-5" >
+											<div class="row">
+												<div class="col-md-12" >
+												<!-- <img class="img-responsive" src="images/select_image2.png"> -->
+													<div class="upload-image">
+														<div id="uploadDiv" class="toolbarItemBox" title="Upload Image" style="overflow: hidden; position: relative;">
+															<div class="upload_active" id="upload_active" class="toolbarItemIcon" ></div>
+															<input class="fileToUpload" id="taskImage" type="file" accept="image/jpg,image/jpeg,image/png,image/gif,image/bmp,image/tiff" style="" name="taskImage" onchange="readURL(event);">
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="col-md-2" >
+											<div style="width:100%;border-left:1px solid #C6C6AA;height:60%;position:relative">	
+												<div class="row" >
+													<div class="col-md-offset-2 col-md-10" style="" >
+													<button id="stepbutton_1" class="btn btn-second stepbutton" onclick="showStep(1)" style = "" type="button"><b> Step 1</b></button>
+													<img class=""style="display:none" id="plus1" src="../images/plus.png" onclick="addStep()">
+													</div>
+													
+												</div>
+												<% if(task.step.length>1){%><% for(var i=1;i < task.step.length; i++) {%>
+												
+												<div class="row" id="step<%=i+1%>" style="display:block" >
+													<div class="col-md-offset-2 col-md-10" style="" >
+													<button id="stepbutton_<%=i+1%>" class="btn btn-second stepbutton2" onclick="showStep(<%=i+1%>)" style = "" type="button"><b> Step <%=i+1%></b></button>
+													<img class="" style="display:none" src="../images/plus.png" onclick="addStep('<%=i+1%>')">
+													</div>
+													
+												</div>
+												<%}%><%}%>
+												<div class="row" style="bottom:5%;  position: absolute;">
+													<div class="col-md-offset-2 col-md-10" style="" >
+													<button id="refresh_button" class="btn btn-second stepbutton" style = "margin-left:10px" type="button" onclick="showGallery()"><b> Previous Image</b></button>
+													
+													</div>
+													
+												</div>
+											
+											
+											</div>
+										</div>
+										<div class="col-md-5" id="step_content_1" >
+										
+										 	<div id="image_content_1" >
+												<div class="row">
+													<div class="col-md-12" >
+														<div class="upload-image">
+															<div id="uploadDiv" class="toolbarItemBox" title="Upload Image" style="overflow: hidden; position: relative;">
+																<div class="upload" id="upload" class="toolbarItemIcon" style="background-image:url(../stepimage/<%=task.step[0].stepimage%>)"></div>
+																<input disabled = 'true' class="fileToUpload" id="taskImage" type="file" accept="image/jpg,image/jpeg,image/png,image/gif,image/bmp,image/tiff" style="" name="taskImage" onchange="readURL(event);" onfocus="removeMessage('errStepImage_1');">
+															</div>
+															<label style="color:red;" id="errStepImage_1"></label>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="row" style="margin-top:2%">
+												<div class="col-md-12" >
+													<textarea disabled="disabled" id="descriptionStep" name="descriptionStep" class="descriptionText" type="text" placeholder="Step Description" tabindex="4" onfocus="removeMessage('errDescriptionStep_1');" autocomplete="off" style="resize: none;"> <%= task.step[0].description%></textarea>
+													<label style="color:red;" id="errDescriptionStep_1"></label>
+												</div>
+											</div>
+											
+										</div>
+										<div id="step_content">
+											<% if(task.step.length>1){%><% for(var i=1;i < task.step.length; i++) {%>
+												<div class="col-md-5" id="step_content_<%=i+1%>" style="display:none" >
+													<input type="hidden" id="taskId" name="taskId" value="<%= task._id %>">	
+													<input type="hidden" name="taskName"  value='<%= task.taskname %>'>
+													<input type="hidden" name="step" >
+													<input type="hidden" name="oldImage" value='<%= task.step[i].stepimage %>' >
+													<div id="image_content_<%=i+1%>">
+														<div class="row">
+												
+															<div class="col-md-12" >
+																<div class="upload-image">
+																	<div id="uploadDiv" class="toolbarItemBox" title="Upload Image" style="overflow: hidden; position: relative;">
+																		<div class="upload" id="upload<%=i+1%>" class="toolbarItemIcon" style="background-image:url(../stepimage/<%=task.step[i].stepimage%>)" >
+																		</div>
+																		<input disabled = 'true' class="fileToUpload" id="taskImage2" type="file" accept="image/jpg,image/jpeg,image/png,image/gif,image/bmp,image/tiff" style="" name="taskImage2" onchange="readURL2(event,'<%=i+1%>');">
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+													<div class="row" style="margin-top:2%">
+														<div class="col-md-12" >
+															<textarea disabled="disabled" id="descriptionStep<%=i+1%>" name="descriptionStep2" class="descriptionText" type="text" placeholder="Step Description" tabindex="4" onfocus="removeMessage('errDescriptionStep_<%=i+1%>');" autocomplete="off" style="resize: none;"><%= task.step[i].description%></textarea>
+															<label style="color:red;" id="errDescriptionStep_<%=i+1%>"></label>
+														</div>
+													</div>
+											
+											
+												</div>
+										 
+											<%}%>
+											<%}%>
+										 
+										</div>
+										
+									</div>
+									<div style="margin-top:1%">
+										<hr style="border-color:rgb(20,119,160) -moz-use-text-color -moz-use-text-color ">
+									</div>
+									
+									<div class="row" style="margin-top:1%;margin-bottom:2px">
+									
+									<div class=" col-md-5">
+											<textarea id="description" disabled="disabled" name="description" class="descriptionText" type="text" placeholder="Task Description" tabindex="4" value=<%= task.description%> onfocus="removeMessage('errUserLastName');" autocomplete="off"
+											style="resize: none;"><%= task.description%></textarea>
+											<label style="color:red;" id="errUserLastName"></label>
+										</div>
+										
+										<div class=" col-md-7">
+											<textarea id="story" name="story" disabled="disabled" class="descriptionText" type="text" placeholder="Task Story" tabindex="4" onfocus="removeMessage('errUserLastName');" autocomplete="off" value=<%= task.story%>
+											style="resize: none;width:100%!important"><%= task.story%></textarea>
+											<label style="color:red;" id="errUserLastName"></label>
+										</div>
+
+									</div>
+									
+									<div class="row" style="margin-top:1%;margin-bottom:2px">
+										
+										<div class="col-md-5">
+											<input id="taskName" disabled="disabled" name="taskName" class="textlogin" type="text" placeholder="Task Name" tabindex="4" onfocus="removeMessage('errUserName');" value="<%= task.taskname%>" autocomplete="off"/>
+											<label style="color:red;" id="errUserName"></label>
+										</div>
+									</div>
+									
+									
+								<!-- </form> -->
+							</div>
+							
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
+		<!-- end of container -->
+		
+		<!-- start of footer 
+		<div style="height:10%;">
+		
+		</div> 
+		 end of footer -->
+		 	<!-- start chat window -->
+		 		<div class="container-fluid">
+			<div class="row">
+				<div class="col-md-offset-9 col-md-3">
+					<div class="row chat-window col-xs-5 col-md-3" id="chat_window_1" style="margin-left:10px;">
+						<div class="col-xs-12 col-md-12">
+							<div class="panel panel-default">
+								<div class="panel-heading top-bar">
+									<div class="col-md-8 col-xs-8">
+										<h3 class="panel-title"><span class="glyphicon glyphicon-comment" id="message_icon" style="top:3px"></span> Admin Chat</h3>
+									</div>
+									<div class="col-md-4 col-xs-4" style="text-align: right;">
+										<span id="minim_chat_window" class="glyphicon glyphicon-plus panel-collapsed icon_minim"></span>
+										<!-- <a href="#"><span class="glyphicon glyphicon-remove icon_close" data-id="chat_window_1"></span></a> -->
+									</div>
+								</div>
+								<div class="panel-body msg_container_base" id="messages_div" style="">
+									
+								</div>
+								<div class="panel-footer">
+									<div class="input-group">
+										<input id="btn-input" onkeypress="keyPress(event)" type="text" class="form-control input-sm chat_input" placeholder="Write your message here..." />
+										<span class="input-group-btn">
+										<button class="btn btn-primary btn-sm" id="btn-chat" onclick="submitfunction()">Send</button>
+										</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				
+				</div>
+			</div>
+		</div>
+		 <script type="text/javascript" src="/javascripts/chatbox.js"></script>
+		 <script type="text/javascript" src="/javascripts/chat.js"></script>
+			<!-- end chat window -->
+		 <form class="hidden-form" id="show-task-gallery" method="post" action="/task/taskgallery"  >
+			<input type="hidden" id="task_Id" name="taskId" value="">
+		</form>
+		 
 	</body>
 </html>

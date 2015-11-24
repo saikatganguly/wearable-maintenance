@@ -4,43 +4,133 @@ var path = require('path');
 var app = require('../app');
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
+var fs=require('fs');
 var users={};
 var client=[];
+var usersMobile={};
+var clientMobile=[];
 var i=0; 
+var mobileUserCount=0;
 
 io.on('connection', function(socket){
 	
-	//console.log("Socket connected"); 
-	socket.on('broadcastMessage', function(from,name, msg){
-		/*client[i]=name;
-		i++;
-		socket.name=name;
-		users[name]=socket;*/
-		if(i==0){
-			//name='admin'
-			client[i]=name;
-			socket.name=name;
-			users[name]=socket;
+	console.log("Socket connected"); 
+	socket.on('broadcastMessage', function(from,authToken,taskid){
+			if(from=="System"){
+				var authTask=authToken+taskid;
+				client[i]=authTask;
+				socket.name=authTask;
+				socket.from="System";
+				users[authTask]=socket;
+				i++;
+				console.log("System socket created");
+			}
+			else{
+				clientMobile[mobileUserCount]=authToken;
+				socket.name=authToken;
+				socket.from="Android";
+				usersMobile[authToken]=socket;
+				mobileUserCount++;
+				/*for(var j=0;j<=clientMobile.length;j++){
+					console.log(" craeted clientMobile "+clientMobile[j]);
+				}*/
+				console.log("Andriod socket created");
+			}
+			
+		//console.log(" users[name]"+users[name].name); 
+		/*io.emit('broadcastMessage', from, msg,client);*/
+	  });
+	socket.on("image", function(data) {
+		//console.log(data.buffer);
+		
+		if(data.image){
+			var authTask=data.authToken+data.taskId;
+			var imagePath="../public/taskimage/"+data.taskId+"/"+data.taskId+"_step_"+data.stepNumber+new Date().getTime()+".jpeg";
+			try
+	          {
+				if(!fs.existsSync("../public/taskimage/"+data.taskId)){
+					console.log("Directory Not Exist")
+					fs.mkdirSync("../public/taskimage/"+data.taskId);
+				}
+	    		var base64Data  =data.buffer +  data.buffer.replace('+', ' ');
+	    		var binaryData  =   new Buffer(base64Data, 'base64').toString('binary');
+	    		require('fs').writeFile(imagePath,binaryData,"binary");
+	          }
+	          catch(error)
+	          {
+	              console.log('ERROR:', error);
+	          }
+
+			if(client.indexOf(authTask)>=0){
+		     	    	 
+		    	 console.log("image send");
+		     	 users[authTask].emit('image', data.from,data.buffer,data.stepNumber);
+		     
+			}else{
+				 
+					console.log("user not active");
+				}
+		 
+		 }
+		else{
+			console.log("No Image");
+		}
+	 });
+	socket.on("chatMessage", function(data) {		
+			
+			if(data.message.length>0){
+				if(data.from=="Android"){
+					var authTask=data.authToken+data.taskId;
+					if(client.indexOf(authTask)>=0){
+		     	    	 users[authTask].emit('chatMessage',data.from,data.message);
+				     	 console.log("msg  send");
+					}else{
+						 
+							console.log("user not active");
+						}	
+				}
+				if(data.from=="System"){
+					/*
+					for(var j=0;j<=clientMobile.length;j++){
+						console.log(" clientMobile "+clientMobile[j]);
+					}*/
+					if(clientMobile.indexOf(data.authToken)>=0){
+						
+						var jsonData={message:data.message,from: data.from,taskId:data.taskId};
+				    	usersMobile[data.authToken].emit('chatMessage',jsonData);
+				     	console.log("msg  send");
+					}else{
+						 
+							console.log("user not active");
+						}	
+				}
+		 
+		 }
+		else{
+			console.log("No Image");
+		}
+	 });
+	socket.on('disconnect', function(){
+		if(socket.from=="System"){
+			var index = client.indexOf(socket.name);
+			if (index >= 0) {
+				client.splice( index, 1 );
+				i--;	
+				
+			}
 			
 		}
 		else{
-			client[i]=name;
-			socket.name=name;
-			users[name]=socket;
+			var index = clientMobile.indexOf(socket.name);
+			if (index >= 0) {
+				clientMobile.splice( index, 1 );
+				mobileUserCount--;	
+				
+			}
+			
 		}
-		i++;
-		//console.log(" users[name]"+users[name].name); 
-		io.emit('broadcastMessage', from, msg,client);
-	  });
-	socket.on("image", function(data) {
-		 
-	     if(data.image)
-	     {	 data.to='admin';
-	     	 users[data.to].emit('image', data.from,data.buffer);
-	     }
-
-	 });
-	socket.on('disconnect', function(){
+		
+		
 		console.log("Socket disconnected"); 
 	});
 

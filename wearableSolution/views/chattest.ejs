@@ -1,0 +1,45 @@
+<html>
+   <head>
+    <title>Chat Application</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' type='text/css'/>
+    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+    <script src="/javascripts/chattest.js"></script>
+   
+  </head>
+  <body>
+  <div id="back_window" style="position: fixed; top: 0px; right: 0px; bottom: 0px; left: 0px; opacity: 0.6; z-index: 9998; background-color: rgb(0, 0, 0);"></div>
+  <div id="popup" style="position: absolute; top: 100px; z-index: 9999; opacity: 1; display: block; left: 541.5px;">
+<h3 style="font: bold;font-size: 18px;">
+Enter Your Name:</h3>
+<br>
+<input class="usernameInput" type="text" maxlength="15"/>
+
+</div>
+    <ul id="messages"></ul>
+    <span id="notifyUser"></span>
+    <img id='output'>
+    
+      <div style="top:84%; padding: 3px; position: fixed; bottom:1%; width: 100%;">
+    <form id="form" action="" onsubmit="return submitImage();" >
+      <input type="hidden" id="user" value="" />
+      <input type="file" onchange="readURL(event);" accept="image/jpg,image/jpeg,image/png,image/gif,image/bmp,image/tiff" id="image_src"/>
+      <select id="active_user_image">
+      <option value="none">None</option>
+      </select>
+      <input type="submit" id="button" value="Send"/>
+    </form></div>  
+    <div id="chat_box">
+    <form id="form" action="" onsubmit="return submitfunction();" >
+      <input type="hidden" id="user" value="" />
+      <input type="text" id="m" autocomplete="off" onkeyup="notifyTyping();" placeholder="Type yor message here.." />
+      <label style="color: white;font:bold;">Send To:</label>
+      <select id="active_user_chat">
+      <option value="none">None</option>
+      </select>
+      <input type="submit" id="button" value="Send"/>
+    </form></div>
+    
+    
+  </body>
+</html>

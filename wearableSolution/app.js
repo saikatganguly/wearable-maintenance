@@ -15,8 +15,7 @@ mongoose.connection.on('open' , function(){
 	console.log("Connected to local db");
 });
 var http = require('http');
-var TMP_UPLOAD_DIR = process.env.TMP_UPLOAD_DIR || path.join(__dirname, './temp');
-console.log(TMP_UPLOAD_DIR);
+var TMP_UPLOAD_DIR = process.env.TMP_UPLOAD_DIR || path.join(__dirname, './public/stepimage');
 var multipart = require('connect-multiparty');
 var multipartMiddleware = multipart({uploadDir: TMP_UPLOAD_DIR});
 /*var routes = require('./routes/index');
